@@ -1,9 +1,6 @@
-<script setup>
-import TheWelcome from '../components/TheWelcome.vue'
-</script>
-
 <template>
   <main>
-    <TheWelcome />
+    <h1>WorldCraft</h1>
+    <p>Bienvenue sur WorldCraft.</p>
   </main>
 </template>

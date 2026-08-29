@@ -1,0 +1,76 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/25.0.2 Chrome/128.0.6613.186 Electron/32.2.5 Safari/537.36" version="25.0.2">
+  <diagram name="Page-1" id="FtTXRWs8QxNGjIeUPOhT">
+    <mxGraphModel dx="558" dy="655" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1200" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-1" value="WorldView" style="ellipse;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="280" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-2" value="Carte" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-3" value="Personnage" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="60" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-13" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="480" y="120" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-14" value="magie" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="420" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-15" value="langue" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="360" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-16" value="culture" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="300" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-17" value="histoire" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="240" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-18" value="faction" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="180" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-19" value="métier" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="120" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-20" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="490" y="130" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-21" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="500" y="140" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-22" value="" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="510" y="150" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-23" value="wiki" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="300" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-24" value="médecine" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="240" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-25" value="race" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="180" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-26" value="faune &amp;amp; flore" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="120" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-27" value="religion" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="840" y="60" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-28" value="politique" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="840" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-29" value="économie" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="600" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-30" value="guerre" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="540" width="80" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fm1NIdXc9E0Tt7LTZwJf-31" value="technologie" style="rounded=1;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="720" y="480" width="80" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
