@@ -85,12 +85,12 @@ export const worldNavigation = [
   {
     name: 'Histoire',
     route: 'world-history',
-    icon: 'ScrollText',
+    icon: 'CalendarFold',
   },
   {
     name: 'Logistique',
     route: 'world-logistics',
-    icon: 'Road',
+    icon: 'Route',
   },
   {
     name: 'Wiki',
