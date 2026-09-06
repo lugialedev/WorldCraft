@@ -18,7 +18,7 @@ body {
 }
 
 h1, h2, h3, h4 {
-  font-familly: var(--font-title);
+  font-family: var(--font-title);
   font-weight: 600;
 }
 

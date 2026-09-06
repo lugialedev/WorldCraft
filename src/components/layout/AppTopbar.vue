@@ -1,55 +1,124 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { useAuthStore } from '@/stores/auth.js';
 
 import AppIcon from '../ui/AppIcon.vue'
 
-const authStore = useAuthStore()
-const isAuthenticated = computed(() => !!authStore.user)
-
-async function handleAuth() {
-  if (isAuthenticated.value) {
-    await authStore.logout()
-  } else {
-    await authStore.loginWithGoogle()
+defineProps({
+  sidebarOpen: {
+    type: Boolean,
+    default: false,
   }
+})
+
+const emit = defineEmits(['toggle-sidebar'])
+
+const authStore = useAuthStore()
+
+const profileMenuOpen = ref(false)
+
+const user = computed(() => authStore.user)
+const userName = computed(() => {
+  return (
+    user.value?.user_metadata?.full_name ||
+    user.value?.user_metadata?.name ||
+    user.value?.email ||
+    'Utilisateur')
+})
+const userEmail = computed(() => user.value?.email || '')
+
+const userAvatar = computed(() => {
+  return user.value?.user_metadata?.avatar_url || null
+})
+
+async function handleLogin() {
+  await authStore.loginWithGoogle()
+}
+
+async function handleLogout() {
+  profileMenuOpen.value = false
+  await authStore.logout()
+}
+
+function toggleProfileMenu() {
+  profileMenuOpen.value = !profileMenuOpen.value
 }
 </script>
 
 <template>
   <header class="topbar">
     <div class="topbar_left">
-      <RouterLink to="/" class="topbar_logo">
+      <button class="topbar_menu_sidebar"
+      type="button"
+      aria-label="Ouvrir le menu"
+      @click="emit('toggle-sidebar')">
+        <AppIcon :name="Menu" />
+      </button>
+
+      <RouterLink to="/accueil" class="topbar_logo">
         <img src="../../assets/images/logo.svg" alt="Logo WorldCraft">
         WorldCraft
       </RouterLink>
     </div>
 
-    <div v-if="isAuthenticated" class="topbar_center">
-      <!--barre de recherche qui s'affiche que quand l'utilisateur est connecter et qui fait un recherche uniquement parmis ses projets-->
+    <div v-if="user" class="topbar_center">
+      <!--barre de recherche qui s'affiche que quand
+      l'utilisateur est connecter et qui fait une
+      recherche uniquement parmis les élément de ses
+      propres projets-->
     </div>
 
     <div class="topbar_right">
-      <button v-if="!isAuthenticated" class="button_auth" type="button" @click="handleAuth">
+      <button v-if="!user" class="button_login" type="button" @click="handleLogin">
         <AppIcon :name="LogIn" />
-        Connexion
+        <span>Se connecter</span>
       </button>
 
-      <button v-else class="button_auth" type="button" @click="handleAuth">
-        <AppIcon :name="LogOut" />
-        Déconnexion
-      </button>
+      <div v-else class="topbar_profile">
+        <button class="topbar_profile-button" type="button" aria-haspopup="menu" :aria-expanded="profileMenuOpen" @click="toggleProfileMenu">
+          <img v-if="userAvatar" :src="userAvatar" :alt="`Photo de profil de ${userName}`" class="topbar_avatar" />
+
+          <span v-else class="topbar_avatar topbar_avatar_fallback">
+            {{ userName.charAt(0).toUpperCase() }}
+          </span>
+
+          <span class="topbar_profile-name"> {{ userName }}</span>
+          <AppIcon name="ChevronDown" :size="16" />
+        </button>
+
+        <div v-if="profileMenuOpen" class="topbar_profile-menu" role="menu">
+          <div class="topbar_profile-header">
+            <strong>{{ userName }}</strong>
+            <span>{{ userEmail }}</span>
+          </div>
+
+          <div class="topbar_separator"></div>
+
+          <button class="topbar_menu-item" type="button" role="menuitem">
+            <AppIcon name="Settings" />
+            <span>Paramètres</span>
+          </button>
+
+          <button class="topbar_menu-item topbar_menu-item-danger" type="button" role="menuitem" @click="handleLogout">
+            <AppIcon name="LogOut" />
+            <span>Se déconnecter</span>
+          </button>
+        </div>
+      </div>
     </div>
   </header>
 </template>
 
 <style scoped>
 .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  width: 100%;
   height: var(--topbar-height);
   padding: 0 24px;
 
@@ -60,9 +129,35 @@ async function handleAuth() {
 .topbar_left, .topbar_center, .topbar_right {
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+
+.topbar_menu_sidebar {
+  display: none;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 40px;
+  height: 40px;
+
+  padding: 0;
+
+  border: 0;
+  border-radius: var(--radius-sm);
+
+  background-color: transparent;
+  color: var(--color-text);
+}
+
+.topbar_menu_sidebar:hover {
+  background-color: var(--color-surface);
 }
 
 .topbar_logo {
+  display: flex;
+  align-items: center;
+
   font-family: var(--text-title);
   font-size: 20px;
   text-decoration: none;
@@ -74,7 +169,7 @@ async function handleAuth() {
 /*  box-sizing: border-box;*/
 }
 
-.button_auth {
+.button_login {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -82,16 +177,151 @@ async function handleAuth() {
   padding: 8px 14px;
 
   border: 1px solid var(--color-border);
-  border-radius: var(--radius);
+  border-radius: var(--radius-sm);
 
   background-color: var(--color-surface);
+  color: var(--color-text);
 
   font-size: 0.9rem;
 
   cursor: pointer;
 }
 
-.button_auth:hover {
+.button_login:hover {
   border-color: var(--color-border-hover);
+}
+
+.topbar_profile {
+  position: relative;
+}
+
+.topbar_profile-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 5px 8px;
+
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+
+  background-color: transparent;
+  color: var(--color-text);
+}
+
+.topbar_profile-button:hover {
+  border-color: var(--color-border);
+}
+
+.topbar_profile-name {
+  max-width: 180px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbar_avatar {
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+
+  object-fit: cover;
+}
+
+.topbar_avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+
+  font-size: 0.9rem;
+}
+
+.topbar_profile-menu {
+  position: absolute;
+  top: calc(100% +8px);
+  right: 0;
+
+  width: 240px;
+  padding: 8px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+
+  background-color: var(--color-surface);
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.topbar_profile-header {
+  display: flex;
+  flex-direction: column;
+
+  padding: 10px 10px 12px;
+
+  overflow: hidden;
+}
+
+.topbar_profile-header strong, .topbar_profile-header span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.topbar_profile-header span {
+  margin-top: 3px;
+
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.topbar_separator {
+  height: 1px;
+  margin: 4px 0;
+
+  background-color: var(--color-border);
+}
+
+.topbar_menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  padding: 10px;
+
+  border: 0;
+  border-radius: var(--radius-sm);
+
+  background-color: transparent;
+  color: var(--color-text);
+
+  text-align: left;
+}
+
+.topbar_menu-item:hover {
+  background-color: var(--color-surface-light);
+}
+
+.topbar_menu-item-danger {
+  color: var(--color-danger);
+}
+
+@media (max-width: 768px) {
+  .app-topbar {
+    padding: 0 12px;
+  }
+
+  .app-topbar__menu-button {
+    display: flex;
+  }
+
+  .app-topbar__profile-name {
+    display: none;
+  }
 }
 </style>
