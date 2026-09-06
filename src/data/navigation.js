@@ -1,17 +1,17 @@
 export const mainNavigation = [
   {
     name: 'Accueil',
-    route: '/accueil',
+    route: 'accueil',
     icon: 'House',
   },
   {
     name: 'Tableau de bord',
-    route: '/dashboard',
+    route: 'dashboard',
     icon: 'LayoutDashboard',
   },
   {
     name: 'Communauté',
-    route: '/community',
+    route: 'community',
     icon: 'HeartHandshake',
   },
 ]
