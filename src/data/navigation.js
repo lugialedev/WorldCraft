@@ -6,12 +6,12 @@ export const mainNavigation = [
   },
   {
     name: 'Tableau de bord',
-    route: '/tableau-de-bord',
+    route: '/dashboard',
     icon: 'LayoutDashboard',
   },
   {
     name: 'Communauté',
-    route: '/communaute',
+    route: '/community',
     icon: 'HeartHandshake',
   },
 ]
