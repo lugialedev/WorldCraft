@@ -52,7 +52,7 @@ function toggleProfileMenu() {
       type="button"
       aria-label="Ouvrir le menu"
       @click="emit('toggle-sidebar')">
-        <AppIcon :name="Menu" />
+        <AppIcon name="Menu" />
       </button>
 
       <RouterLink to="/accueil" class="topbar_logo">
@@ -70,7 +70,7 @@ function toggleProfileMenu() {
 
     <div class="topbar_right">
       <button v-if="!user" class="button_login" type="button" @click="handleLogin">
-        <AppIcon :name="LogIn" />
+        <AppIcon name="LogIn" />
         <span>Se connecter</span>
       </button>
 

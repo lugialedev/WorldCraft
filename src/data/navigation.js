@@ -1,7 +1,7 @@
 export const mainNavigation = [
   {
     name: 'Accueil',
-    route: 'accueil',
+    route: 'home',
     icon: 'House',
   },
   {

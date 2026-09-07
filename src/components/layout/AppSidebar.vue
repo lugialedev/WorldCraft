@@ -68,7 +68,7 @@ function handleNavigation() {
       <nav class="sidebar_navigation">
         <section class="sidebar_section">
           <RouterLink v-for="item in mainNavigation" :key="item.route" :to="getRoute(item)" class="sidebar_item" :class="{ 'sidebar_item-active' : isActive(item) }" @click="handleNavigation">
-            <AppIcon :name="item.icon" />
+            <AppIcon :name="item.icon" color="var(--color-accent)" />
 
             <span>{{ item.name }}</span>
           </RouterLink>
@@ -80,7 +80,7 @@ function handleNavigation() {
           </div>
 
           <RouterLink v-for="item in worldNavigation" :key="item.route" :to="getRoute(item)" class="sidebar_item" :class="{ 'sidebar_item-active' : isActive(item) }" @click="handleNavigation">
-            <AppIcon :name="item.icon" />
+            <AppIcon :name="item.icon" color="var(--color-accent)" />
 
             <span>{{ item.name }}</span>
           </RouterLink>
@@ -92,7 +92,7 @@ function handleNavigation() {
           </div>
 
           <button v-for="item in toolsNavigation" :key="item.name" class="sidebar_item sidebar_item-button" type="button" :disabled="!item.route">
-            <AppIcon :name="item.icon" />
+            <AppIcon :name="item.icon" color="var(--color-accent)" />
 
             <span>{{ item.name }}</span>
 
@@ -193,7 +193,7 @@ function handleNavigation() {
 }
 
 @media (max-width: 768px) {
-  .app-sidebar {
+  .sidebar {
     position: fixed;
     top: var(--topbar-height);
     left: 0;
@@ -204,7 +204,7 @@ function handleNavigation() {
     box-shadow: 12px 0 30px rgb(0 0 0 / 20%);
   }
 
-  .app-sidebar--open {
+  .sidebar-open {
     transform: translateX(0);
   }
 }

@@ -43,7 +43,7 @@ function closeSidebar() {
   background-color: var(--color-bg);
 }
 
-.appLayout_body {
+.appLayoutBody {
   display: flex;
   min-height: calc(100vh - var(--topbar-height));
 }
