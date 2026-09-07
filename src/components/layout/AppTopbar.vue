@@ -57,7 +57,7 @@ function toggleProfileMenu() {
 
       <RouterLink to="/accueil" class="topbar_logo">
         <img src="../../assets/images/logo.svg" alt="Logo WorldCraft">
-        WorldCraft
+        <h1>WorldCraft</h1>
       </RouterLink>
     </div>
 
@@ -133,8 +133,7 @@ function toggleProfileMenu() {
 }
 
 .topbar_menu_sidebar {
-  display: none;
-
+  display: flex;
   align-items: center;
   justify-content: center;
 
@@ -159,13 +158,23 @@ function toggleProfileMenu() {
   align-items: center;
 
   font-family: var(--text-title);
-  font-size: 20px;
+  font-size: 0.7rem;
   text-decoration: none;
+
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: 5px;
+
+  gap: 3px;
+}
+
+.topbar_logo:hover {
+  border-color: var(--color-border-hover);
 }
 
 .topbar_logo img {
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 35px;
 /*  box-sizing: border-box;*/
 }
 

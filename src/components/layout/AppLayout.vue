@@ -40,7 +40,7 @@ function closeSidebar() {
 <style scoped>
 .appLayout {
   min-height: 100vh;
-  background-color: var(--color-bg);
+  background-color: var(--color-surface);
 }
 
 .appLayoutBody {

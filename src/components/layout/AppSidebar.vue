@@ -86,7 +86,7 @@ function handleNavigation() {
           </RouterLink>
         </section>
 
-        <section class="sidebar_section">
+        <section v-if="isWorldPage" class="sidebar_section">
           <div class="sidebar_section-title">
             Outils
           </div>
@@ -197,10 +197,15 @@ function handleNavigation() {
     position: fixed;
     top: var(--topbar-height);
     left: 0;
+    bottom: 0;
+
     z-index: 90;
+
     height: calc(100vh - var(--topbar-height));
+
     transform: translateX(-100%);
     transition: transform 0.2s ease;
+
     box-shadow: 12px 0 30px rgb(0 0 0 / 20%);
   }
 
