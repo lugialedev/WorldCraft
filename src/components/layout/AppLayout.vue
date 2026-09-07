@@ -14,7 +14,7 @@ function toggleSidebar() {
 }
 
 function closeSidebar() {
-  sidebarOpen.value = !sidebarOpen.value
+  sidebarOpen.value = false
 }
 </script>
 
