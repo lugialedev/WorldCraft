@@ -67,6 +67,7 @@ function handleNavigation() {
     <div class="sidebar_content">
       <nav class="sidebar_navigation">
         <section class="sidebar_section">
+          <div class="sidebar_section-title">Mon espace</div>
           <RouterLink v-for="item in mainNavigation" :key="item.route" :to="getRoute(item)" class="sidebar_item" :class="{ 'sidebar_item-active' : isActive(item) }" @click="handleNavigation">
             <AppIcon :name="item.icon" color="var(--color-accent)" />
 
@@ -145,6 +146,7 @@ function handleNavigation() {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin-top: 10px;
 }
 
 .sidebar_section + .sidebar_section {
@@ -156,9 +158,11 @@ function handleNavigation() {
 .sidebar_section-title {
   padding: 0 10px 7px;
 
-  color: var(--color-text-muted);
+  color: var(--color-accent);
 
-  font-size: 0.7rem;
+  font-size: 1rem;
+  font-family: var(--font-title);
+  font-weight: 600;
   text-transform: uppercase;
 }
 
@@ -167,13 +171,14 @@ function handleNavigation() {
   align-items: center;
   gap: 10px;
 
-  width: 100%;
+  width: auto;
   min-height: 40px;
 
   padding: 10px;
+  margin: 0 10px;
 
   background-color: transparent;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius);
 
   font-size: 0.9rem;
 }

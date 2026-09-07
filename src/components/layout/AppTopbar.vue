@@ -76,11 +76,7 @@ function toggleProfileMenu() {
 
       <div v-else class="topbar_profile">
         <button class="topbar_profile-button" type="button" aria-haspopup="menu" :aria-expanded="profileMenuOpen" @click="toggleProfileMenu">
-          <img v-if="userAvatar" :src="userAvatar" class="topbar_avatar" />
-
-          <span v-else class="topbar_avatar topbar_avatar_fallback">
-            {{ userName.charAt(0).toUpperCase() }}
-          </span>
+          <img :src="userAvatar" class="topbar_avatar" />
 
           <span class="topbar_profile-name"> {{ userName }}</span>
           <AppIcon name="ChevronDown" :size="16" />
@@ -175,7 +171,10 @@ function toggleProfileMenu() {
 .topbar_logo img {
   height: 35px;
   width: 35px;
-/*  box-sizing: border-box;*/
+}
+
+.topbar_logo h1 {
+  margin: 0;
 }
 
 .button_login {
@@ -231,24 +230,13 @@ function toggleProfileMenu() {
 }
 
 .topbar_avatar {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
 
   border-radius: 50%;
   border: 1px solid var(--color-border);
 
   object-fit: cover;
-}
-
-.topbar_avatar-fallback {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background-color: var(--color-accent);
-  color: var(--color-surface);
-
-  font-size: 0.9rem;
 }
 
 .topbar_profile-menu {
