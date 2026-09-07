@@ -1,38 +1,66 @@
 <script setup>
-import { computed, ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { onBeforeUnmount, onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 
 import AppTopbar from './AppTopbar.vue'
 import AppSidebar from './AppSidebar.vue'
 
-const  route = useRoute()
+const route = useRoute()
+
 const sidebarOpen = ref(false)
-const worldId = computed(() => route.params.worldId ?? null)
+
+function updateSidebarForViewport() {
+  sidebarOpen.value = window.innerWidth > 768
+}
 
 function toggleSidebar() {
   sidebarOpen.value = !sidebarOpen.value
 }
 
 function closeSidebar() {
-  sidebarOpen.value = false
+  if (window.innerWidth <= 768) {
+    sidebarOpen.value = false
+  }
 }
+
+function handleResize() {
+  updateSidebarForViewport()
+}
+
+onMounted(() => {
+  updateSidebarForViewport()
+  window.addEventListener('resize', handleResize)
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', handleResize)
+})
 </script>
 
 <template>
   <div class="appLayout">
     <AppTopbar
-    :sidebar-open="sidebarOpen"
-    @toggle-sidebar="toggleSidebar" />
+      :sidebar-open="sidebarOpen"
+      @toggle-sidebar="toggleSidebar"
+    />
 
     <div class="appLayoutBody">
       <AppSidebar
-      :world-id="worldId"
-      :open="sidebarOpen"
-      @navigate="closeSidebar" />
+        :world-id="route.params.worldId ?? null"
+        :open="sidebarOpen"
+        @navigate="closeSidebar"
+      />
 
       <main class="appLayoutContent">
         <RouterView />
       </main>
+
+      <button
+        v-if="sidebarOpen"
+        class="appLayoutOverlay"
+        type="button"
+        aria-label="Fermer le menu"
+        @click="closeSidebar" />
     </div>
   </div>
 </template>
@@ -55,9 +83,28 @@ function closeSidebar() {
   overflow-x: hidden;
 }
 
+.appLayoutOverlay {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .appLayoutContent {
     padding: 16px;
+  }
+
+  .appLayoutOverlay {
+    display: block;
+    position: fixed;
+    inset: var(--topbar-height) 0 0;
+    z-index: 80;
+
+    width: 100%;
+    height: calc(100vh - var(--topbar-height));
+
+    padding: 0;
+    border: none;
+    background: rgb(0 0 0 / 40%);
+    cursor: pointer;
   }
 }
 </style>

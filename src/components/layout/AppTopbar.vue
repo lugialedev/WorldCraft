@@ -76,7 +76,7 @@ function toggleProfileMenu() {
 
       <div v-else class="topbar_profile">
         <button class="topbar_profile-button" type="button" aria-haspopup="menu" :aria-expanded="profileMenuOpen" @click="toggleProfileMenu">
-          <img v-if="userAvatar" :src="userAvatar" :alt="`Photo de profil de ${userName}`" class="topbar_avatar" />
+          <img v-if="userAvatar" :src="userAvatar" class="topbar_avatar" />
 
           <span v-else class="topbar_avatar topbar_avatar_fallback">
             {{ userName.charAt(0).toUpperCase() }}
@@ -219,7 +219,7 @@ function toggleProfileMenu() {
 }
 
 .topbar_profile-button:hover {
-  border-color: var(--color-border);
+  border-color: var(--color-border-hover);
 }
 
 .topbar_profile-name {
@@ -235,6 +235,7 @@ function toggleProfileMenu() {
   height: 40px;
 
   border-radius: 50%;
+  border: 1px solid var(--color-border);
 
   object-fit: cover;
 }
@@ -245,7 +246,7 @@ function toggleProfileMenu() {
   justify-content: center;
 
   background-color: var(--color-accent);
-  color: var(--color-bg);
+  color: var(--color-surface);
 
   font-size: 0.9rem;
 }

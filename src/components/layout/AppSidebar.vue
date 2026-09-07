@@ -109,7 +109,6 @@ function handleNavigation() {
 <style scoped>
 .sidebar {
   flex: 0 0 var(--sidebar-max-width);
-
   width: var(--sidebar-max-width);
   height: calc(100vh - var(--topbar-height));
 
@@ -120,10 +119,26 @@ function handleNavigation() {
 
   background-color: var(--color-bg);
   border-right: 1px solid var(--color-border);
+
+  transition:
+    width 0.2s ease,
+    flex-basis 0.2s ease;
+}
+
+.sidebar:not(.sidebar-open) {
+  flex-basis: 0;
+  width: 0;
+  overflow: hidden;
+  border-right: none;
+}
+
+.sidebar:not(.sidebar-open) .sidebar_content {
+  opacity: 0;
 }
 
 .sidebar_content {
-  padding: 16px 12px;
+  opacity: 1;
+  transition: opacity 0.15s ease;
 }
 
 .sidebar_section {
@@ -199,18 +214,32 @@ function handleNavigation() {
     left: 0;
     bottom: 0;
 
-    z-index: 90;
-
+    width: var(--sidebar-max-width);
     height: calc(100vh - var(--topbar-height));
+
+    flex: none;
 
     transform: translateX(-100%);
     transition: transform 0.2s ease;
 
+    z-index: 100;
     box-shadow: 12px 0 30px rgb(0 0 0 / 20%);
   }
 
-  .sidebar-open {
+  .sidebar.sidebar-open {
     transform: translateX(0);
+  }
+
+  .sidebar:not(.sidebar-open) {
+    width: var(--sidebar-max-width);
+    flex-basis: auto;
+
+    overflow-y: auto;
+    border-right: 1px solid var(--color-border);
+  }
+
+  .sidebar:not(.sidebar-open) .sidebar_content {
+    opacity: 1;
   }
 }
 </style>
