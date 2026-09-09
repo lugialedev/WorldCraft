@@ -69,6 +69,10 @@ function toggleProfileMenu() {
     </div>
 
     <div class="topbar_right">
+      <button v-if="user" type="button" class="topbar_notification">
+        <AppIcon name="Bell" />
+      </button>
+
       <button v-if="!user" class="button_login" type="button" @click="handleLogin">
         <AppIcon name="LogIn" />
         <span>Se connecter</span>
@@ -146,6 +150,7 @@ function toggleProfileMenu() {
 }
 
 .topbar_menu_sidebar:hover {
+  border: 1px solid var(--color-border);
   background-color: var(--color-surface);
 }
 
@@ -175,6 +180,27 @@ function toggleProfileMenu() {
 
 .topbar_logo h1 {
   margin: 0;
+}
+
+.topbar_notification {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  width: 40px;
+  height: 40px;
+
+  border-radius: 50%;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+
+  object-fit: cover;
+}
+
+.topbar_notification:hover {
+  border-color: var(--color-border-hover);
 }
 
 .button_login {
@@ -230,8 +256,8 @@ function toggleProfileMenu() {
 }
 
 .topbar_avatar {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
 
   border-radius: 50%;
   border: 1px solid var(--color-border);
