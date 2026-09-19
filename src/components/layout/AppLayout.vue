@@ -89,7 +89,11 @@ onBeforeUnmount(() => {
 
 @media (max-width: 768px) {
   .appLayoutContent {
+    flex: 1;
+    min-width: 0;
     padding: 16px;
+
+    overflow-x: hidden;
   }
 
   .appLayoutOverlay {

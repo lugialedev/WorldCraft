@@ -5,16 +5,18 @@ VARIABLE LIER AU DESIGN
 :root {
   --color-bg: #0c0f19;
   --color-surface: #0e1928;
-  --color-surface-light: #121e32;
+  --color-surface-light: #122548;
 
-  --color-border: #212b39;
+  --color-border: #414f65;
   --color-border-hover: #4f8ef7;
 
 
   --color-text: #f3f4f6;
   --color-text-muted: #8c8c8c;
-  --color-accent: #d39b4f;
-  --color-accent-hover: #e7ae5a;
+
+  --color-accent: #eaa13b;
+  --color-accent-hover: #ffffff;
+
   --color-danger: #e57373;
 
   --font-title: 'Cinzel', Georgia, serif;

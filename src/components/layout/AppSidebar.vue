@@ -181,6 +181,8 @@ function handleNavigation() {
   border-radius: var(--radius);
 
   font-size: 0.9rem;
+
+  transition: background-color 0.2s ease;
 }
 
 .sidebar_item:hover {

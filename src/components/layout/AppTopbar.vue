@@ -137,16 +137,18 @@ function toggleProfileMenu() {
   align-items: center;
   justify-content: center;
 
-  width: 40px;
-  height: 40px;
+  width: 37px;
+  height: 37px;
 
   padding: 0;
 
-  border: 0;
+  border: 1px solid transparent;
   border-radius: var(--radius-sm);
 
   background-color: transparent;
   color: var(--color-text);
+
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .topbar_menu_sidebar:hover {
@@ -167,6 +169,8 @@ function toggleProfileMenu() {
   padding: 5px;
 
   gap: 3px;
+
+  transition: border-color 0.2s ease;
 }
 
 .topbar_logo:hover {
@@ -189,14 +193,16 @@ function toggleProfileMenu() {
 
   padding: 0;
 
-  width: 40px;
-  height: 40px;
+  width: 37px;
+  height: 37px;
 
   border-radius: 50%;
   border: 1px solid var(--color-border);
   background-color: var(--color-surface);
 
   object-fit: cover;
+
+  transition: border-color 0.2s ease;
 }
 
 .topbar_notification:hover {
@@ -250,17 +256,17 @@ function toggleProfileMenu() {
 .topbar_profile-name {
   max-width: 180px;
 
+  font-size: 0.9rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .topbar_avatar {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
 
   border-radius: 50%;
-  border: 1px solid var(--color-border);
 
   object-fit: cover;
 }
