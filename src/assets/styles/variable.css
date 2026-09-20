@@ -4,12 +4,12 @@ VARIABLE LIER AU DESIGN
 
 :root {
   --color-bg: #0c0f19;
+  --color-modal: #0c0f19b3;
   --color-surface: #0e1928;
   --color-surface-light: #122548;
 
   --color-border: #414f65;
   --color-border-hover: #4f8ef7;
-
 
   --color-text: #f3f4f6;
   --color-text-muted: #8c8c8c;

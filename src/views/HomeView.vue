@@ -1,16 +1,40 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import { Plus, Play, FolderOpen, Link2, Lightbulb, Bot, ShieldCheck, Users, FileText, ChevronRight, MoreVertical, InfinityIcon, Sparkles } from 'lucide-vue-next';
+import {
+  Plus,
+  Play,
+  FolderOpen,
+  Link2,
+  Lightbulb,
+  Bot,
+  ShieldCheck,
+  Users,
+  FileText,
+  ChevronRight,
+  MoreVertical,
+  InfinityIcon,
+  Sparkles
+} from 'lucide-vue-next';
+
+import CreateNewProject from '@/components/projects/CreateNewProject.vue';
+
+import médiévalFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
+import murimImage from '@/assets/images/projects/murim.png'
+import postApoImage from '@/assets/images/projects/postApo.png'
+import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
 
 const router = useRouter()
+
+const isCreateProjectModalOpen = ref(false)
+
 const projects = ref([
   {
     id: 1,
     name: 'Fantasia',
     type: 'Fantasy',
     updated: 'il y a 5 min',
-    image: '../images/projects/fantasy.png',
+    image: médiévalFantasyImage,
     stats: {
       character: 30,
       locations: 30,
@@ -22,7 +46,7 @@ const projects = ref([
     name: 'Murim',
     type: 'Murim',
     updated: 'il y a 5 heures',
-    image: '../images/projects/murim.png',
+    image: murimImage,
     stats: {
       character: 30,
       locations: 30,
@@ -34,7 +58,7 @@ const projects = ref([
     name: 'Post-apocalypse',
     type: 'Post-apo',
     updated: 'il y a 5 jours',
-    image: '../images/projects/postApo.png',
+    image: postApoImage,
     stats: {
       character: 30,
       locations: 30,
@@ -46,7 +70,7 @@ const projects = ref([
     name: 'Science-fiction',
     type: 'SF',
     updated: 'il y a 5 mois',
-    image: '../images/projects/scienceFiction.png',
+    image: scienceFictionImage,
     stats: {
       character: 30,
       locations: 30,
@@ -83,9 +107,32 @@ const features = [
   }
 ]
 
-function createProject() {
-  // todo : remplacer par la création réelle dans supabase
-  console.log('Création d\'un nouveau projet')
+function openCreateProjectModal() {
+  isCreateProjectModalOpen.value = true
+}
+
+function closeCreateProjectModal() {
+  isCreateProjectModalOpen.value = false
+}
+
+function createProject(project) {
+  const newProject = {
+    id: Date.now(),
+    name: project.name,
+    type: project.type,
+    updated: 'à l\'instant',
+    image: project.image,
+    description: project.description,
+    stats: {
+      character: 0,
+      location: 0,
+      notes: 0,
+    },
+  }
+
+  projects.value.unshift(newProject)
+
+  isCreateProjectModalOpen.value = false
 }
 
 function openProject(projects) {
@@ -118,7 +165,7 @@ function openProject(projects) {
             <button
               class="button button-primary"
               type="button"
-              @click="createProject"
+              @click="openCreateProjectModal"
             >
               <Plus :size="18" />
               Nouveau projet
@@ -137,7 +184,7 @@ function openProject(projects) {
         <div class="hero-visual">
           <div class="hero-image">
             <img
-              src="../assets/images/bureau_cartographe.png"
+              src="../assets/images/home/bureau_cartographe.png"
               alt="Atelier de création d'univers"
             />
           </div>
@@ -253,7 +300,7 @@ function openProject(projects) {
         </article>
 
         <!--  NOUVEAU PROJET  -->
-        <button class="new-project-card" type="button" @click="createProject">
+        <button class="new-project-card" type="button" @click="openCreateProjectModal">
           <span class="new-project-icon">
             <Plus :size="38" />
           </span>
@@ -282,12 +329,14 @@ function openProject(projects) {
     <section class="bottom-cta">
       <span>Prêt à commencer votre prochain chef-d'oeuvre ?</span>
 
-      <button type="button" @click="createProject">
+      <button type="button" @click="openCreateProjectModal">
         Créer un projet
         <Plus :size="18" />
       </button>
     </section>
   </main>
+
+  <CreateNewProject v-if="isCreateProjectModalOpen" @close="closeCreateProjectModal" @create="createProject" />
 </template>
 
 <style scoped>
@@ -573,6 +622,17 @@ function openProject(projects) {
   position: relative;
   height: 112px;
   overflow: hidden;
+}
+
+.project-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-overlay {
+  position: absolute;
+  inset: 0;
   background:
     linear-gradient(
       90deg,
@@ -588,22 +648,6 @@ function openProject(projects) {
       transparent 70%,
       var(--color-surface) 100%
       );
-}
-
-.project-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.project-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 40%,
-    rgba(5, 9, 15, 0.8)
-  );
 }
 
 .project-menu {

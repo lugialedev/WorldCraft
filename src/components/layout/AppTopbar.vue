@@ -56,7 +56,7 @@ function toggleProfileMenu() {
       </button>
 
       <RouterLink to="/accueil" class="topbar_logo">
-        <img src="../../assets/images/logo.svg" alt="Logo WorldCraft">
+        <img src="../../assets/images/home/logo.svg" alt="Logo WorldCraft">
         <h1>WorldCraft</h1>
       </RouterLink>
     </div>
@@ -171,10 +171,6 @@ function toggleProfileMenu() {
   gap: 3px;
 
   transition: border-color 0.2s ease;
-}
-
-.topbar_logo:hover {
-  border-color: var(--color-border-hover);
 }
 
 .topbar_logo img {
