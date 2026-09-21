@@ -894,4 +894,3 @@ function openProject(projects) {
   }
 }
 </style>
-fantasy.png
