@@ -1,6 +1,9 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { supabase } from '@/lib/supabase';
+import { useAuthStore } from '@/stores/auth';
+
 import {
   Plus,
   Play,
@@ -23,8 +26,11 @@ import médiévalFantasyImage from '@/assets/images/projects/médiévalFantasy.p
 import murimImage from '@/assets/images/projects/murim.png'
 import postApoImage from '@/assets/images/projects/postApo.png'
 import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
+import steampunkImage from '@/assets/images/projects/steampunkFantasy.png'
+import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
 
 const router = useRouter()
+const authStore = useAuthStore()
 
 const isCreateProjectModalOpen = ref(false)
 
@@ -32,7 +38,7 @@ const projects = ref([
   {
     id: 1,
     name: 'Fantasia',
-    type: 'Fantasy',
+    type: 'Médiéval fantasy',
     updated: 'il y a 5 min',
     image: médiévalFantasyImage,
     stats: {
@@ -43,7 +49,7 @@ const projects = ref([
   },
   {
     id: 2,
-    name: 'Murim',
+    name: 'Démon céleste',
     type: 'Murim',
     updated: 'il y a 5 heures',
     image: murimImage,
@@ -55,8 +61,8 @@ const projects = ref([
   },
   {
     id: 3,
-    name: 'Post-apocalypse',
-    type: 'Post-apo',
+    name: 'Post-apo',
+    type: 'Post-apocalypse',
     updated: 'il y a 5 jours',
     image: postApoImage,
     stats: {
@@ -67,10 +73,22 @@ const projects = ref([
   },
   {
     id: 4,
-    name: 'Science-fiction',
-    type: 'SF',
+    name: 'SF',
+    type: 'Science-fiction',
     updated: 'il y a 5 mois',
     image: scienceFictionImage,
+    stats: {
+      character: 30,
+      locations: 30,
+      notes: 30,
+    },
+  },
+  {
+    id: 5,
+    name: 'Steampunk',
+    type: 'Steampunk',
+    updated: 'il y a 5 ans',
+    image: steampunkImage,
     stats: {
       character: 30,
       locations: 30,
@@ -115,17 +133,43 @@ function closeCreateProjectModal() {
   isCreateProjectModalOpen.value = false
 }
 
-function createProject(project) {
+async function createProject(project) {
+  if (!authStore.user) {
+    console.error('Aucun utilisateur connecté.')
+    return
+  }
+
+  const { data, error } = await supabase
+    .from('worlds')
+    .insert({
+      user_id: authStore.user.id,
+      name: project.name,
+      description: project.description || null,
+      type: project.type,
+      cover_url: null,
+    })
+    .select()
+    .single()
+
+  if (error) {
+    console.error(
+      'Erreur lors de la création du monde :',
+      error
+    )
+
+    return
+  }
+
   const newProject = {
-    id: Date.now(),
-    name: project.name,
-    type: project.type,
-    updated: 'à l\'instant',
+    id: data.id,
+    name: data.name,
+    type: data.type,
+    updated: 'à l’instant',
     image: project.image,
-    description: project.description,
+    description: data.description,
     stats: {
       character: 0,
-      location: 0,
+      locations: 0,
       notes: 0,
     },
   }
@@ -143,6 +187,55 @@ function openProject(projects) {
     },
   })
 }
+
+async function loadProjects() {
+  if (!authStore.user) {
+    return
+  }
+
+  const { data, error } = await supabase
+    .from('worlds')
+    .select('*')
+    .order('updated_at', {
+      ascending: false,
+    })
+    .limit(5)
+
+  if (error) {
+    console.error('Erreur lors du chargement des mondes :', error)
+    return
+  }
+
+  projects.value = data.map((world) => ({
+    id: world.id,
+    name: world.name,
+    type: world.type,
+    updated: formatUpdatedDate(world.updated_at),
+    image: getProjectImage(world.type),
+    description: world.description,
+    stats: {
+      character: 0,
+      locations: 0,
+      notes: 0,
+    },
+  }))
+}
+
+function getProjectImage(type) {
+  switch (type) {
+    case 'Médiéval fantasy': return médiévalFantasyImage
+    case 'Murim': return murimImage
+    case 'Steampunk': return steampunkImage
+    case 'Post-apocalypse': return postApoImage
+    case 'Cyberpunk': return cyberpunkImage
+    case 'Science-fiction': return scienceFictionImage
+    default: return médiévalFantasyImage
+  }
+}
+
+onMounted(() => {
+  loadProjects()
+})
 </script>
 
 <template>
@@ -587,7 +680,7 @@ function openProject(projects) {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 10px;
 }
 

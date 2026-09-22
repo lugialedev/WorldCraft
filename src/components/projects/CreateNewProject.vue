@@ -3,9 +3,10 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { X, Plus, Check, Sparkles } from 'lucide-vue-next';
 
 import médiévalFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
-import steampunkFantasyImage from '@/assets/images/projects/steampunkFantasy.png'
+import steampunkImage from '@/assets/images/projects/steampunkFantasy.png'
 import murimImage from '@/assets/images/projects/murim.png'
 import postApoImage from '@/assets/images/projects/postApo.png'
+import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
 import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
 
 const emit = defineEmits(['close', 'create'])
@@ -29,7 +30,7 @@ const projectTypes = [
   {
     name: 'Steampunk',
     description: 'Magie, artefact, revolution industrielle...',
-    image: steampunkFantasyImage,
+    image: steampunkImage,
   },
   {
     name: 'Post-apocalypse',
@@ -38,8 +39,8 @@ const projectTypes = [
   },
   {
     name: 'Cyberpunk',
-    description: 'Ruine, survie, reconstruction...',
-    image: postApoImage,
+    description: 'Mégapole, corporation, transhumanisme...',
+    image: cyberpunkImage,
   },
   {
     name: 'Science-fiction',
