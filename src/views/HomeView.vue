@@ -34,56 +34,7 @@ const authStore = useAuthStore()
 
 const isCreateProjectModalOpen = ref(false)
 
-const projects = ref([
-  {
-    id: 1,
-    name: 'Fantasia',
-    type: 'Médiéval fantasy',
-    updated: 'il y a 5 min',
-    image: médiévalFantasyImage,
-    stats: {
-      character: 30,
-      locations: 30,
-      notes: 30,
-    },
-  },
-  {
-    id: 2,
-    name: 'Démon céleste',
-    type: 'Murim',
-    updated: 'il y a 5 heures',
-    image: murimImage,
-    stats: {
-      character: 30,
-      locations: 30,
-      notes: 30,
-    },
-  },
-  {
-    id: 3,
-    name: 'Post-apo',
-    type: 'Post-apocalypse',
-    updated: 'il y a 5 jours',
-    image: postApoImage,
-    stats: {
-      character: 30,
-      locations: 30,
-      notes: 30,
-    },
-  },
-  {
-    id: 4,
-    name: 'SF',
-    type: 'Science-fiction',
-    updated: 'il y a 5 mois',
-    image: scienceFictionImage,
-    stats: {
-      character: 30,
-      locations: 30,
-      notes: 30,
-    },
-  },
-])
+const projects = ref([])
 
 const features = [
   {
@@ -178,28 +129,30 @@ function openProject(projects) {
 
 async function loadProjects() {
   if (!authStore.user) {
+    console.log('Aucun utilisateur connecté')
     return
   }
 
   const { data, error } = await supabase
     .from('worlds')
     .select('*')
-    .order('updated_at', {
-      ascending: false,
-    })
-    .limit(5)
+    .order('updated_at', { ascending: false })
+    .limit(4)
 
   if (error) {
     console.error('Erreur lors du chargement des mondes :', error)
     return
   }
 
+  console.log('Mondes récupérés depuis Supabase :', data);
+
+
   projects.value = data.map((world) => ({
     id: world.id,
     name: world.name,
     type: world.type,
     updated: formatUpdatedDate(world.updated_at),
-    image: getProjectImage(world.type),
+    image: world.cover_url || getProjectImage(world.type),
     description: world.description,
     stats: {
       character: 0,
@@ -211,17 +164,51 @@ async function loadProjects() {
 
 function getProjectImage(type) {
   switch (type) {
-    case 'Médiéval fantasy': return médiévalFantasyImage
-    case 'Murim': return murimImage
-    case 'Steampunk': return steampunkImage
-    case 'Post-apocalypse': return postApoImage
-    case 'Cyberpunk': return cyberpunkImage
-    case 'Science-fiction': return scienceFictionImage
-    default: return médiévalFantasyImage
+    case 'Médiéval fantasy':
+      return médiévalFantasyImage
+    case 'Murim':
+      return murimImage
+    case 'Steampunk':
+      return steampunkImage
+    case 'Post-apocalypse':
+      return postApoImage
+    case 'Cyberpunk':
+      return cyberpunkImage
+    case 'Science-fiction':
+      return scienceFictionImage
+    default:
+      return médiévalFantasyImage
   }
 }
 
+function formatUpdatedDate(dateString) {
+  const date = new Date(dateString)
+  const now = new Date()
+
+  const diff = now.getTime() - date.getTime()
+
+  const minutes = Math.floor(diff / 1000 / 60)
+  const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
+
+  if (minutes<1) {
+    return "à l'instant"
+  }
+  if (minutes<60) {
+    return `il y a ${minutes} minutes`
+  }
+  if (hours < 24) {
+    return `il y a ${hours} heures`
+  }
+  if (days < 7) {
+    return `il y a ${days} jours`
+  }
+
+  return date.toLocaleDateString('fr-FR')
+}
+
 onMounted(() => {
+  console.log('Utilisateur au chargement :', authStore.user)
   loadProjects()
 })
 </script>
