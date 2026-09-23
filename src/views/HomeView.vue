@@ -83,18 +83,6 @@ const projects = ref([
       notes: 30,
     },
   },
-  {
-    id: 5,
-    name: 'Steampunk',
-    type: 'Steampunk',
-    updated: 'il y a 5 ans',
-    image: steampunkImage,
-    stats: {
-      character: 30,
-      locations: 30,
-      notes: 30,
-    },
-  },
 ])
 
 const features = [
@@ -680,7 +668,7 @@ onMounted(() => {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 10px;
 }
 
