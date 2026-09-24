@@ -1,0 +1,56 @@
+create table public.worlds (
+  id uuid primary key default gen_random_uuid(),
+
+  user_id uuid not null references auth.users(id) on delete cascade,
+
+  name text not null,
+  description text,
+  type text not null,
+
+  cover_url text,
+
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+
+  constraint worlds_name_length
+    check (char_length(name) between 1 and 80),
+
+  constraint worlds_type_check
+    check (
+      type in (
+        'Médiéval fantasy',
+        'Murim',
+        'Steampunk',
+        'Post-apocalypse',
+        'Cyberpunk',
+        'Science-fiction'
+      )
+    )
+);
+
+alter table public.worlds enable row level security;
+
+create policy "Users can view their own worlds"
+on public.worlds
+for select
+to authenticated
+using (auth.uid() = user_id);
+
+create policy "Users can create their own worlds"
+on public.worlds
+for insert
+to authenticated
+with check (auth.uid() = user_id);
+
+create policy "Users can update their own worlds"
+on public.worlds
+for update
+to authenticated
+using (auth.uid() = user_id)
+with check (auth.uid() = user_id);
+
+create policy "Users can delete their own worlds"
+on public.worlds
+for delete
+to authenticated
+using (auth.uid() = user_id);

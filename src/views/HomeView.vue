@@ -33,6 +33,7 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const isCreateProjectModalOpen = ref(false)
+const openedProjectMenu = ref(null)
 
 const projects = ref([])
 
@@ -116,13 +117,15 @@ async function createProject(project) {
   projects.value.unshift(newProject)
 
   isCreateProjectModalOpen.value = false
+
+  loadProjects()
 }
 
-function openProject(projects) {
+function openProject(project) {
   router.push({
     name: 'world',
     params: {
-      worldId: projects.id,
+      worldId: project.id,
     },
   })
 }
@@ -205,6 +208,40 @@ function formatUpdatedDate(dateString) {
   }
 
   return date.toLocaleDateString('fr-FR')
+}
+
+async function deleteProject(project) {
+  const confirmed = window.confirm(`Voulez-vous vraiment supprimer "${project.name}" ?\n\nCette action est irréversible.`)
+
+  if (!confirmed) {
+    return
+  }
+
+  const { error } = await supabase
+    .from('worlds')
+    .delete()
+    .eq('id', project.id)
+
+  if (error) {
+    console.error('Erreur lors de la suppression du monde :', error)
+    return
+  }
+
+  projects.value = projects.value.filter(
+    (item) => item.id !== project.id
+  )
+
+  openedProjectMenu.value = null
+
+  loadProjects()
+}
+
+function toggleProjectMenu(projectId) {
+  if (openedProjectMenu.value === projectId ) {
+    openedProjectMenu.value = null
+  } else {
+    openedProjectMenu.value = projectId
+  }
 }
 
 onMounted(() => {
@@ -339,9 +376,21 @@ onMounted(() => {
 
             <div class="project-overlay"></div>
 
-            <button class="project-menu" type="button" aria-label="Option du projet" @click.stop>
-              <MoreVertical :size="18" />
+            <button
+              class="project-menu"
+              type="button"
+              aria-label="Option du projet"
+              :aria-expanded="openedProjectMenu === project.id"
+              @click.stop="toggleProjectMenu(project.id)"
+            >
+              <MoreVertical :size="16" />
             </button>
+
+            <div v-if="openedProjectMenu === project.id" class="project-menu-dropdown" @click.stop>
+              <button type="button" class="project-menu-item project-menu-item-danger" @click="deleteProject(project)">
+                Supprimer
+              </button>
+            </div>
           </div>
 
           <div class="project-content">
@@ -723,8 +772,9 @@ onMounted(() => {
   top: 8px;
   right: 7px;
 
-  display: grid;
-  place-items: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   width: 30px;
   height: 30px;
@@ -809,6 +859,50 @@ onMounted(() => {
 .new-project-card > span:last-child {
   color: var(--color-text-muted);
   font-size: 0.8rem;
+}
+
+.project-menu-dropdown {
+  position: absolute;
+  top: 44px;
+  right: 7px;
+  z-index: 10;
+
+  min-width: 140px;
+  padding: 5px;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+
+  background-color: var(--color-surface);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+}
+
+.project-menu-item {
+  width: 100%;
+  padding: 8px 10px;
+
+  border: 0;
+  border-radius: var(--radius-sm);
+
+  background-color: transparent;
+  color: var(--color-text);
+
+  text-align: left;
+  font-size: 0.9rem;
+
+  cursor: pointer;
+}
+
+.project-menu-item:hover {
+  background-color: var(--color-surface-light);
+}
+
+.project-menu-item-danger {
+  color: var(--color-danger);
+}
+
+.project-menu-item-danger:hover {
+  background-color: var(--bg-danger);
 }
 
 /* FEATURES */
