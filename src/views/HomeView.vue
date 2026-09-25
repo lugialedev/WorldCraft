@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { supabase } from '@/lib/supabase';
 import { useAuthStore } from '@/stores/auth';
@@ -31,6 +31,8 @@ import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
 
 const router = useRouter()
 const authStore = useAuthStore()
+
+const user = computed(() => authStore.user)
 
 const isCreateProjectModalOpen = ref(false)
 const openedProjectMenu = ref(null)
@@ -210,6 +212,57 @@ function formatUpdatedDate(dateString) {
   return date.toLocaleDateString('fr-FR')
 }
 
+async function renameProject(project) {
+  const newName = window.prompt('Nouveau nom du monde :', project.name)
+
+  if (newName === null) {
+    return
+  }
+
+  const name = newName.trim()
+
+  if (!name) {
+    return
+  }
+
+  if (name.length > 80) {
+    window.alert('Le nom ne peut pas dépasser les 80 caractères')
+    return
+  }
+
+  const { data, error } = await supabase
+    .from('worlds')
+    .update({
+      name,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', project.id)
+    .select()
+    .single()
+
+  if (error) {
+    console.error('Erreur lors du renommage du monde :', error)
+    window.alert('Impossible de renommer le monde.')
+    return
+  }
+
+  const index = projects.value.findIndex((item) =>
+    item.id === project.id
+  )
+
+  if (index !== -1) {
+    projects.value[index] = {
+      ...projects.value[index],
+      name: data.name,
+      updated: "à l'instant",
+    }
+  }
+
+  openedProjectMenu.value = null
+
+  loadProjects()
+}
+
 async function deleteProject(project) {
   const confirmed = window.confirm(`Voulez-vous vraiment supprimer "${project.name}" ?\n\nCette action est irréversible.`)
 
@@ -347,7 +400,7 @@ onMounted(() => {
     </section>
 
     <!--  PROJETS  -->
-    <section class="projects">
+    <section v-if="user" class="projects">
       <div class="project-heading">
         <div>
           <h2>Mes projets récents</h2>
@@ -387,6 +440,10 @@ onMounted(() => {
             </button>
 
             <div v-if="openedProjectMenu === project.id" class="project-menu-dropdown" @click.stop>
+              <button type="button" class="project-menu-item" @click="renameProject(project)">
+                Renommer
+              </button>
+
               <button type="button" class="project-menu-item project-menu-item-danger" @click="deleteProject(project)">
                 Supprimer
               </button>

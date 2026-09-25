@@ -79,7 +79,7 @@ onBeforeUnmount(() => {
 .appLayoutContent {
   flex: 1;
   min-width: 0;
-  padding: 24px;
+  padding: 0 24px 24px;
   overflow-x: hidden;
 }
 
