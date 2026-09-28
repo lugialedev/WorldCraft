@@ -28,6 +28,50 @@ import postApoImage from '@/assets/images/projects/postApo.png'
 import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
 import steampunkImage from '@/assets/images/projects/steampunkFantasy.png'
 import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
+/*
+import darkFantasy
+import hightFantasy
+import lowFantasy
+import nearFuture
+import grimdark
+import pirate
+import scienceFantasy
+import gothique
+import mythologieGreque
+import mythologieJaponaise
+import mythologieNordique
+import mythologieIndienne
+import horreur
+import horreurCosmique
+import western
+import super-hero
+import historique
+import uchronie
+import lavecraftien
+import moderne
+import sliceOfLife
+import spaceOpera
+import ereVictorienne
+import vampire
+import grimdarkScienceFantasy
+import urbanVice
+import japonFeudal
+import voyageDimensionnel
+import biopunk
+import ecole
+import surnaturel
+import crime
+import guerreMondial
+import foot
+import voyageTemporel
+import militaire
+import zombie
+import pokemon
+import romance
+import
+import
+import
+*/
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -1028,17 +1072,16 @@ onMounted(() => {
   gap: 10px;
   padding: 4px 8px;
 
-  border: 1px solid transparent;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--color-accent);
 
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
 .bottom-cta button:hover {
-  border-color: var(--color-border);
-  background-color: var(--color-surface-light);
+  border-color: var(--color-border-hover);
 }
 
 /* RESPONSIVE */
@@ -1071,6 +1114,10 @@ onMounted(() => {
 
   .stat:nth-child(-n + 2) {
     border-bottom: 1px solid var(--color-border);
+  }
+
+  .hero-description {
+    max-width: 80%;
   }
 }
 
