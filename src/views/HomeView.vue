@@ -22,7 +22,7 @@ import {
 
 import CreateNewProject from '@/components/projects/CreateNewProject.vue';
 
-import médiévalFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
+import fantasyImage from '@/assets/images/projects/fantasy.png'
 import murimImage from '@/assets/images/projects/murim.png'
 import postApoImage from '@/assets/images/projects/postApo.png'
 import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
@@ -213,8 +213,8 @@ async function loadProjects() {
 
 function getProjectImage(type) {
   switch (type) {
-    case 'Médiéval fantasy':
-      return médiévalFantasyImage
+    case 'Fantasy':
+      return fantasyImage
     case 'Murim':
       return murimImage
     case 'Steampunk':
@@ -226,7 +226,7 @@ function getProjectImage(type) {
     case 'Science-fiction':
       return scienceFictionImage
     default:
-      return médiévalFantasyImage
+      return fantasyImage
   }
 }
 

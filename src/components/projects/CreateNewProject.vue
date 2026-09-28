@@ -2,25 +2,47 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { X, Plus, Check, Sparkles } from 'lucide-vue-next';
 
-import médiévalFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
-import steampunkImage from '@/assets/images/projects/steampunkFantasy.png'
-import murimImage from '@/assets/images/projects/murim.png'
-import postApoImage from '@/assets/images/projects/postApo.png'
-import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
-import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
+import mythologiqueImage from '@/assets/images/projects/mythologique.png'
+import médiévalFantasyImage from '@/assets/images/projects/fantasy.png'//
+import darkFantasyImage from '@/assets/images/projects/darkFantasy.png'
+import highFantasyImage from '@/assets/images/projects/highFantasy.png'
+import murimImage from '@/assets/images/projects/murim.png'//
+import historiqueImage from '@/assets/images/projects/historique.png'
+import steampunkImage from '@/assets/images/projects/steampunkFantasy.png'//
+import lowFantasyImage from '@/assets/images/projects/lowFantasy.png'
+import horreurImage from '@/assets/images/projects/horreur.png'
+import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
+import postApoImage from '@/assets/images/projects/postApo.png'//
+import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'//
+import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'//
 
 const emit = defineEmits(['close', 'create'])
 
 const projectName = ref('')
 const projectDescription = ref('')
-const projectType = ref('Fantasy')
+const projectType = ref('Médiéval fantasy')
 const projectImage = ref(médiévalFantasyImage)
 
 const projectTypes = [
   {
+    name: 'Mthologique',
+    description: 'Dieux, mythes, légende, héros...',
+    image: mythologiqueImage
+  },
+  {
     name: 'Médiéval fantasy',
-    description: 'Magie, royaume, créatures...',
+    description: 'Magie, royaume, chevalier, créatures...',
     image: médiévalFantasyImage,
+  },
+  {
+    name: 'Dark fantasy',
+    description: 'Cultes, malédictions, corruption, désespoir...',
+    image: darkFantasyImage,
+  },
+  {
+    name:'High fantasy',
+    description: 'Monde fictif, magie, grande civilisation...',
+    image: highFantasyImage
   },
   {
     name: 'Murim',
@@ -28,9 +50,29 @@ const projectTypes = [
     image: murimImage,
   },
   {
+    name: 'Historique',
+    description: 'Inspiré d\'une période historique...',
+    image: historiqueImage
+  },
+  {
     name: 'Steampunk',
     description: 'Magie, artefact, revolution industrielle...',
     image: steampunkImage,
+  },
+  {
+    name: 'Low fantasy',
+    description: 'Notre monde, magie, surnaturel...',
+    image: lowFantasyImage,
+  },
+  {
+    name: 'Horreur',
+    description: 'Surnaturel, monstres, occultisme...',
+    image: horreurImage,
+  },
+  {
+    name: 'Science fantasy',
+    description: 'Science, magie, espace, civilisation galactique',
+    image: scienceFantasyImage
   },
   {
     name: 'Post-apocalypse',
@@ -39,12 +81,12 @@ const projectTypes = [
   },
   {
     name: 'Cyberpunk',
-    description: 'Mégapole, corporation, transhumanisme...',
+    description: 'Mégapole, corporation, implants, inégalités sociales...',
     image: cyberpunkImage,
   },
   {
     name: 'Science-fiction',
-    description: 'Espace, technologie, civilisation...',
+    description: 'Espace, technologie, civilisation galactique...',
     image: scienceFictionImage,
   },
 ]
