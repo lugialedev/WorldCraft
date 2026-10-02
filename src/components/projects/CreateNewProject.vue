@@ -3,36 +3,36 @@ import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { X, Plus, Check, Sparkles } from 'lucide-vue-next';
 
 import mythologiqueImage from '@/assets/images/projects/mythologique.png'
-import médiévalFantasyImage from '@/assets/images/projects/fantasy.png'//
+import lowFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
 import darkFantasyImage from '@/assets/images/projects/darkFantasy.png'
 import highFantasyImage from '@/assets/images/projects/highFantasy.png'
-import murimImage from '@/assets/images/projects/murim.png'//
+import murimImage from '@/assets/images/projects/murim.png'
 import historiqueImage from '@/assets/images/projects/historique.png'
-import steampunkImage from '@/assets/images/projects/steampunkFantasy.png'//
-import lowFantasyImage from '@/assets/images/projects/lowFantasy.png'
+import steampunkImage from '@/assets/images/projects/steampunk.png'
 import horreurImage from '@/assets/images/projects/horreur.png'
-import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
-import postApoImage from '@/assets/images/projects/postApo.png'//
-import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'//
-import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'//
+/*import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
+import postApoImage from '@/assets/images/projects/postApo.png'
+import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
+import biopunkImage from '@/assets/images/projects/biopunk.png'
+import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'*/
 
 const emit = defineEmits(['close', 'create'])
 
 const projectName = ref('')
 const projectDescription = ref('')
 const projectType = ref('Médiéval fantasy')
-const projectImage = ref(médiévalFantasyImage)
+const projectImage = ref(lowFantasyImage)
 
 const projectTypes = [
   {
-    name: 'Mthologique',
+    name: 'Mythologique',
     description: 'Dieux, mythes, légende, héros...',
     image: mythologiqueImage
   },
   {
-    name: 'Médiéval fantasy',
-    description: 'Magie, royaume, chevalier, créatures...',
-    image: médiévalFantasyImage,
+    name: 'Low fantasy',
+    description: 'Monde réel, magie peu présent, créatures...',
+    image: lowFantasyImage,
   },
   {
     name: 'Dark fantasy',
@@ -41,7 +41,7 @@ const projectTypes = [
   },
   {
     name:'High fantasy',
-    description: 'Monde fictif, magie, grande civilisation...',
+    description: 'Monde fictif, magie omniprésent, monstres...',
     image: highFantasyImage
   },
   {
@@ -60,15 +60,10 @@ const projectTypes = [
     image: steampunkImage,
   },
   {
-    name: 'Low fantasy',
-    description: 'Notre monde, magie, surnaturel...',
-    image: lowFantasyImage,
-  },
-  {
     name: 'Horreur',
     description: 'Surnaturel, monstres, occultisme...',
     image: horreurImage,
-  },
+  },/*
   {
     name: 'Science fantasy',
     description: 'Science, magie, espace, civilisation galactique',
@@ -85,10 +80,15 @@ const projectTypes = [
     image: cyberpunkImage,
   },
   {
+    name: 'Biopunk',
+    description: 'Modification génétique, biohacking, clonage...',
+    image: biopunkImage,
+  },
+  {
     name: 'Science-fiction',
     description: 'Espace, technologie, civilisation galactique...',
     image: scienceFictionImage,
-  },
+  },*/
 ]
 
 const isValid = computed(() => {
@@ -584,7 +584,7 @@ input:focus, textarea:focus {
 }
 
 .cancel-button {
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
 
   background-color: transparent;
   color: var(--color-text);
@@ -593,17 +593,19 @@ input:focus, textarea:focus {
 .cancel-button:hover {
   background-color: var(--color-surface-light);
   border-color: var(--color-border-hover);
+  transform: translateY(-2px);
 }
 
 .create-button {
   gap: 10px;
 
-  border: 1px solid var(--color-accent);
+  background-color: var(--color-accent);
+  border: 2px solid var(--color-accent);
   color: black;
 }
 
 .create-button:hover:not(:disabled) {
-  background-color: var(--color-accent-hover);
+  border-color: var(--color-border-hover);
   transform: translateY(-2px);
 }
 

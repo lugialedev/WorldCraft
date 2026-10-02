@@ -3,12 +3,20 @@ import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '@/lib/supabase';
 
-import médiévalFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
+import mythologiqueImage from '@/assets/images/projects/mythologique.png'
+import lowFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
+import darkFantasyImage from '@/assets/images/projects/darkFantasy.png'
+import highFantasyImage from '@/assets/images/projects/highFantasy.png'
 import murimImage from '@/assets/images/projects/murim.png'
+import historiqueImage from '@/assets/images/projects/historique.png'
+import steampunkImage from '@/assets/images/projects/steampunk.png'
+import horreurImage from '@/assets/images/projects/horreur.png'
+/*import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
 import postApoImage from '@/assets/images/projects/postApo.png'
-import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
-import steampunkImage from '@/assets/images/projects/steampunkFantasy.png'
 import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
+import biopunkImage from '@/assets/images/projects/biopunk.png'
+import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'*/
+
 import { ArrowLeft, CalendarDays, ChevronRight, Clock3, GlobeOff, Edit3, FileText, Map, Sparkles, UsersRound } from 'lucide-vue-next';
 
 const route = useRoute()
@@ -53,26 +61,24 @@ const quickActions = [
 
 function getProjectImage(type) {
   switch (type) {
-    case 'Médiéval fantasy':
-      return médiévalFantasyImage
-
+    case 'Low fantasy':
+      return lowFantasyImage
     case 'Murim':
       return murimImage
-
     case 'Steampunk':
       return steampunkImage
-
-    case 'Post-apocalypse':
-      return postApoImage
-
-    case 'Cyberpunk':
-      return cyberpunkImage
-
-    case 'Science-fiction':
-      return scienceFictionImage
-
+    case 'Mythologique':
+      return mythologiqueImage
+    case 'Dark fantasy':
+      return darkFantasyImage
+    case 'High fantasy':
+      return highFantasyImage
+    case 'Historique':
+      return historiqueImage
+    case 'Horreur':
+      return horreurImage
     default:
-      return médiévalFantasyImage
+      return lowFantasyImage
   }
 }
 
