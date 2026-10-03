@@ -18,11 +18,21 @@ create table public.worlds (
   constraint worlds_type_check
     check (
       type in (
-        'Médiéval fantasy',
+        'Low fantasy',
+        'High fantasy',
+        'Dark Fantasy',
+        'Horreur',
+        'Urban fantasy',
+        'Mythologique',
         'Murim',
-        'Steampunk',
+        'Pirate',
+        'Historique',
         'Post-apocalypse',
+        'Steampunk',
+        'Gaslamp',
         'Cyberpunk',
+        'Biopunk',
+        'Science-fantasy',
         'Science-fiction'
       )
     )

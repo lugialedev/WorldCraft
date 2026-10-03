@@ -11,8 +11,10 @@ import murimImage from '@/assets/images/projects/murim.png'
 import historiqueImage from '@/assets/images/projects/historique.png'
 import steampunkImage from '@/assets/images/projects/steampunk.png'
 import horreurImage from '@/assets/images/projects/horreur.png'
-/*import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
+import urbanFantasyImage from '@/assets/images/projects/urbanFantasy.png'
 import postApoImage from '@/assets/images/projects/postApo.png'
+import pirateImage from '@/assets/images/projects/pirate.png'
+/*import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
 import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
 import biopunkImage from '@/assets/images/projects/biopunk.png'
 import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'*/
@@ -77,6 +79,22 @@ function getProjectImage(type) {
       return historiqueImage
     case 'Horreur':
       return horreurImage
+    case 'Urban fantasy':
+      return urbanFantasyImage
+    case 'Pirate':
+      return pirateImage
+    case 'Post-apocalypse':
+      return postApoImage
+    /*case 'Gaslamp':
+      return GaslampFantasyImage
+    case 'Cyberpunk':
+      return cyberpunkImage
+    case 'Biopunk':
+      return biopunkImage
+    case 'Science-fantasy':
+      return scienceFantasyImage
+    case 'ScienceFiction':
+      return scienceFictionImage*/
     default:
       return lowFantasyImage
   }

@@ -10,10 +10,11 @@ import murimImage from '@/assets/images/projects/murim.png'
 import historiqueImage from '@/assets/images/projects/historique.png'
 import steampunkImage from '@/assets/images/projects/steampunk.png'
 import horreurImage from '@/assets/images/projects/horreur.png'
-/*import pirateImage from '@/assets/images/projects/pirate.png' //pirate, tresor, bateau
-import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png' //19eme ou 20eme siecle, horreur gothique, historique
+import urbanFantasyImage from '@/assets/images/projects/urbanFantasy.png'
+import pirateImage from '@/assets/images/projects/pirate.png'
+import postApoImage from '@/assets/images/projects/postApo.png'
+/*import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png' //19eme ou 20eme siecle, horreur gothique, historique
 import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png' //mélange science-fiction et fantasy
-import postApoImage from '@/assets/images/projects/postApo.png' //monde post apocalyptique
 import cyberpunkImage from '@/assets/images/projects/cyberpunk.png' //technologie derivee de la biologie
 import biopunkImage from '@/assets/images/projects/biopunk.png'
 import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'*/
@@ -42,6 +43,16 @@ const projectTypes = [
     image: darkFantasyImage,
   },
   {
+    name: 'Horreur',
+    description: 'Surnaturel, monstres, occultisme...',
+    image: horreurImage,
+  },
+  {
+    name: 'Urban fantasy',
+    description: 'Surnaturel, urbain contemporain, ...',
+    image: urbanFantasyImage,
+  },
+  {
     name: 'Mythologique',
     description: 'Dieux, mythes, légende, héros...',
     image: mythologiqueImage
@@ -52,29 +63,29 @@ const projectTypes = [
     image: murimImage,
   },
   {
+    name: 'Pirate',
+    description: 'Pirates, trésors, bateaux...',
+    image: pirateImage,
+  },
+  {
     name: 'Historique',
     description: 'Inspiré d\'une période historique...',
     image: historiqueImage
   },
   {
-    name: 'Steampunk',
-    description: 'Vapeur, machines, artefacts, révolution industrielle...',
-    image: steampunkImage,
-  },
-  {
-    name: 'Horreur',
-    description: 'Surnaturel, monstres, occultisme...',
-    image: horreurImage,
-  },/*
-  {
-    name: 'Science fantasy',
-    description: 'Science, magie, espace, civilisations galactique',
-    image: scienceFantasyImage
-  },
-  {
     name: 'Post-apocalypse',
     description: 'Ruines, survie, reconstruction...',
     image: postApoImage,
+  },
+  {
+    name: 'Steampunk',
+    description: 'Vapeur, machines, artefacts, révolution industrielle...',
+    image: steampunkImage,
+  },/*
+  {
+    name: 'Gaslamp',
+    description: '20eme siecle, horreur gothique, historique...',
+    image: gaslampFantasyImage,
   },
   {
     name: 'Cyberpunk',
@@ -85,6 +96,11 @@ const projectTypes = [
     name: 'Biopunk',
     description: 'Modification génétique, biohacking, clonage...',
     image: biopunkImage,
+  },
+  {
+    name: 'Science-fantasy',
+    description: 'Science, magie, espace, civilisations galactique',
+    image: scienceFantasyImage
   },
   {
     name: 'Science-fiction',
