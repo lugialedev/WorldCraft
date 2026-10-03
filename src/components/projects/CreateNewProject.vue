@@ -10,9 +10,11 @@ import murimImage from '@/assets/images/projects/murim.png'
 import historiqueImage from '@/assets/images/projects/historique.png'
 import steampunkImage from '@/assets/images/projects/steampunk.png'
 import horreurImage from '@/assets/images/projects/horreur.png'
-/*import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
-import postApoImage from '@/assets/images/projects/postApo.png'
-import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
+/*import pirateImage from '@/assets/images/projects/pirate.png' //pirate, tresor, bateau
+import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png' //19eme ou 20eme siecle, horreur gothique, historique
+import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png' //mélange science-fiction et fantasy
+import postApoImage from '@/assets/images/projects/postApo.png' //monde post apocalyptique
+import cyberpunkImage from '@/assets/images/projects/cyberpunk.png' //technologie derivee de la biologie
 import biopunkImage from '@/assets/images/projects/biopunk.png'
 import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'*/
 
@@ -20,19 +22,19 @@ const emit = defineEmits(['close', 'create'])
 
 const projectName = ref('')
 const projectDescription = ref('')
-const projectType = ref('Médiéval fantasy')
+const projectType = ref('Low fantasy')
 const projectImage = ref(lowFantasyImage)
 
 const projectTypes = [
   {
-    name: 'Mythologique',
-    description: 'Dieux, mythes, légende, héros...',
-    image: mythologiqueImage
-  },
-  {
     name: 'Low fantasy',
     description: 'Monde réel, magie peu présent, créatures...',
     image: lowFantasyImage,
+  },
+  {
+    name:'High fantasy',
+    description: 'Monde fictif, magie omniprésent, monstres...',
+    image: highFantasyImage
   },
   {
     name: 'Dark fantasy',
@@ -40,9 +42,9 @@ const projectTypes = [
     image: darkFantasyImage,
   },
   {
-    name:'High fantasy',
-    description: 'Monde fictif, magie omniprésent, monstres...',
-    image: highFantasyImage
+    name: 'Mythologique',
+    description: 'Dieux, mythes, légende, héros...',
+    image: mythologiqueImage
   },
   {
     name: 'Murim',
@@ -56,7 +58,7 @@ const projectTypes = [
   },
   {
     name: 'Steampunk',
-    description: 'Magie, artefact, revolution industrielle...',
+    description: 'Vapeur, machines, artefacts, révolution industrielle...',
     image: steampunkImage,
   },
   {
@@ -66,17 +68,17 @@ const projectTypes = [
   },/*
   {
     name: 'Science fantasy',
-    description: 'Science, magie, espace, civilisation galactique',
+    description: 'Science, magie, espace, civilisations galactique',
     image: scienceFantasyImage
   },
   {
     name: 'Post-apocalypse',
-    description: 'Ruine, survie, reconstruction...',
+    description: 'Ruines, survie, reconstruction...',
     image: postApoImage,
   },
   {
     name: 'Cyberpunk',
-    description: 'Mégapole, corporation, implants, inégalités sociales...',
+    description: 'Mégapoles, corporations, implants, inégalités sociales...',
     image: cyberpunkImage,
   },
   {
@@ -86,7 +88,7 @@ const projectTypes = [
   },
   {
     name: 'Science-fiction',
-    description: 'Espace, technologie, civilisation galactique...',
+    description: 'Espace, technologie, civilisations galactique...',
     image: scienceFictionImage,
   },*/
 ]
@@ -501,7 +503,10 @@ input:focus, textarea:focus {
   position: absolute;
   inset: 0;
 
-  background-color: linear-gradient(90deg, transparent 50%, var(--color-bg) 100%);
+  background: linear-gradient(
+    90deg,
+    transparent 70%,
+    var(--color-bg) 100%);
 }
 
 .type-image img {
