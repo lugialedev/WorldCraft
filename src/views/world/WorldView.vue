@@ -14,12 +14,24 @@ import horreurImage from '@/assets/images/projects/horreur.png'
 import urbanFantasyImage from '@/assets/images/projects/urbanFantasy.png'
 import postApoImage from '@/assets/images/projects/postApo.png'
 import pirateImage from '@/assets/images/projects/pirate.png'
-/*import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
+import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
 import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
 import biopunkImage from '@/assets/images/projects/biopunk.png'
-import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'*/
+import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png'
+import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
 
-import { ArrowLeft, CalendarDays, ChevronRight, Clock3, GlobeOff, Edit3, FileText, Map, Sparkles, UsersRound } from 'lucide-vue-next';
+import {
+  ArrowLeft,
+  CalendarDays,
+  ChevronRight,
+  Clock3,
+  GlobeOff,
+  Edit3,
+  FileText,
+  Map,
+  Sparkles,
+  UsersRound
+} from 'lucide-vue-next';
 
 const route = useRoute()
 const router = useRouter()
@@ -85,8 +97,8 @@ function getProjectImage(type) {
       return pirateImage
     case 'Post-apocalypse':
       return postApoImage
-    /*case 'Gaslamp':
-      return GaslampFantasyImage
+    case 'Gaslamp':
+      return gaslampFantasyImage
     case 'Cyberpunk':
       return cyberpunkImage
     case 'Biopunk':
@@ -94,7 +106,7 @@ function getProjectImage(type) {
     case 'Science-fantasy':
       return scienceFantasyImage
     case 'ScienceFiction':
-      return scienceFictionImage*/
+      return scienceFictionImage
     default:
       return lowFantasyImage
   }

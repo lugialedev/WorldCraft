@@ -13,11 +13,11 @@ import horreurImage from '@/assets/images/projects/horreur.png'
 import urbanFantasyImage from '@/assets/images/projects/urbanFantasy.png'
 import pirateImage from '@/assets/images/projects/pirate.png'
 import postApoImage from '@/assets/images/projects/postApo.png'
-/*import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png' //19eme ou 20eme siecle, horreur gothique, historique
-import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png' //mélange science-fiction et fantasy
-import cyberpunkImage from '@/assets/images/projects/cyberpunk.png' //technologie derivee de la biologie
+import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png'
+import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
 import biopunkImage from '@/assets/images/projects/biopunk.png'
-import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'*/
+import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
+import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
 
 const emit = defineEmits(['close', 'create'])
 
@@ -81,7 +81,7 @@ const projectTypes = [
     name: 'Steampunk',
     description: 'Vapeur, machines, artefacts, révolution industrielle...',
     image: steampunkImage,
-  },/*
+  },
   {
     name: 'Gaslamp',
     description: '20eme siecle, horreur gothique, historique...',
@@ -106,7 +106,7 @@ const projectTypes = [
     name: 'Science-fiction',
     description: 'Espace, technologie, civilisations galactique...',
     image: scienceFictionImage,
-  },*/
+  },
 ]
 
 const isValid = computed(() => {

@@ -33,11 +33,11 @@ import horreurImage from '@/assets/images/projects/horreur.png'
 import urbanFantasyImage from '@/assets/images/projects/urbanFantasy.png'
 import postApoImage from '@/assets/images/projects/postApo.png'
 import pirateImage from '@/assets/images/projects/pirate.png'
-/*import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png' //19eme ou 20eme siecle, horreur gothique, historique
-import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png' //mélange science-fiction et fantasy
-import cyberpunkImage from '@/assets/images/projects/cyberpunk.png' //technologie derivee de la biologie
+import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
+import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png'
+import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
 import biopunkImage from '@/assets/images/projects/biopunk.png'
-import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'*/
+import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -201,8 +201,8 @@ function getProjectImage(type) {
       return pirateImage
     case 'Post-apocalypse':
       return postApoImage
-    /*case 'Gaslamp':
-      return GaslampFantasyImage
+    case 'Gaslamp':
+      return gaslampFantasyImage
     case 'Cyberpunk':
       return cyberpunkImage
     case 'Biopunk':
@@ -210,7 +210,7 @@ function getProjectImage(type) {
     case 'Science-fantasy':
       return scienceFantasyImage
     case 'ScienceFiction':
-      return scienceFictionImage*/
+      return scienceFictionImage
     default:
       return lowFantasyImage
   }
@@ -533,7 +533,7 @@ onMounted(() => {
     <section class="bottom-cta">
       <span>Prêt à commencer votre prochain chef-d'oeuvre ?</span>
 
-      <button type="button" @click="openCreateProjectModal">
+      <button class="project-link" type="button" @click="openCreateProjectModal">
         Créer un projet
         <Plus :size="18" />
       </button>
@@ -1049,25 +1049,6 @@ onMounted(() => {
 
 .bottom-cta span {
   color: var(--color-text);
-}
-
-.bottom-cta button {
-  display: inline-flex;
-  align-items: center;
-
-  gap: 10px;
-  padding: 4px 8px;
-
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  background: transparent;
-  color: var(--color-accent);
-
-  transition: border-color 0.2s ease;
-}
-
-.bottom-cta button:hover {
-  border-color: var(--color-border-hover);
 }
 
 /* RESPONSIVE */
