@@ -116,6 +116,8 @@ function handleNavigation() {
   position: sticky;
   top: var(--topbar-height);
 
+  padding: 4px 0 24px;
+
   overflow-y: auto;
 
   background-color: var(--color-bg);

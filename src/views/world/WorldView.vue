@@ -776,11 +776,10 @@ onMounted(() => {
 
   background: var(--color-surface);
 
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
 .stat-card:hover {
-  transform: translateY(-2px);
   border-color: var(--color-border-hover);
 }
 
