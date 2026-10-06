@@ -1,6 +1,6 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
-import { X, Plus, Check, Sparkles } from 'lucide-vue-next';
+import { computed, onBeforeMount, onMounted, ref } from 'vue';
+import { X, Check, Save, Sparkles } from 'lucide-vue-next';
 
 import mythologiqueImage from '@/assets/images/projects/mythologique.png'
 import lowFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
@@ -11,22 +11,27 @@ import historiqueImage from '@/assets/images/projects/historique.png'
 import steampunkImage from '@/assets/images/projects/steampunk.png'
 import horreurImage from '@/assets/images/projects/horreur.png'
 import urbanFantasyImage from '@/assets/images/projects/urbanFantasy.png'
-import pirateImage from '@/assets/images/projects/pirate.png'
 import postApoImage from '@/assets/images/projects/postApo.png'
-import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png'
+import pirateImage from '@/assets/images/projects/pirate.png'
+import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
 import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
 import biopunkImage from '@/assets/images/projects/biopunk.png'
+import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png'
 import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
-import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
 
-const emit = defineEmits(['close', 'create'])
+const props = defineProps({
+  world: {
+    type: Object,
+    required: true
+  },
+})
+const emit = defineEmits(['close', 'update'])
 
-const projectName = ref('')
-const projectDescription = ref('')
-const projectType = ref('Low fantasy')
-const projectImage = ref(lowFantasyImage)
+const worldName = ref(props.world.name || '')
+const worldDescription = ref(props.world.description || '')
+const worldType = ref(props.world.type || 'Low fantasy')
 
-const projectTypes = [
+const projectType = [
   {
     name: 'Low fantasy',
     description: 'Monde réel, magie peu présent, créatures...',
@@ -110,12 +115,11 @@ const projectTypes = [
 ]
 
 const isValid = computed(() => {
-  return projectName.value.trim().length > 0
+  return worldName.value.trim().length > 0
 })
 
 function selectType(type) {
-  projectType.value = type.name
-  projectImage.value = type.image
+  worldType.value = type.name
 }
 
 function closeModal() {
@@ -128,29 +132,25 @@ function handleEscape(event) {
   }
 }
 
-function createProject() {
+function updateWorld() {
   if (!isValid.value) {
     return
   }
 
-  emit('create', {
-    name:projectName.value.trim(),
-    description: projectDescription.value.trim(),
-    type: projectType.value,
-    image: projectImage.value,
+  emit('update', {
+    name: worldName.value.trim(),
+    description: worldDescription.value.trim(),
+    type: worldType.value,
   })
 }
 
 onMounted(() => {
   document.addEventListener('keydown', handleEscape)
-
-  //empeche le scroll de la page derriere la modale
   document.body.style.overflow = 'hidden'
 })
 
-onBeforeUnmount(() => {
+onBeforeMount(() => {
   document.removeEventListener('keydown', handleEscape)
-
   document.body.style.overflow = ''
 })
 </script>
@@ -158,46 +158,58 @@ onBeforeUnmount(() => {
 <template>
   <Teleport to="body">
     <div class="modal-overlay" @mousedown.self="closeModal">
-      <section class="modal" role="dialog" aria-modal="true" aria-labelledby="create-project-title">
+      <section
+        class="modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="edit-world-title">
         <!-- HEADER -->
         <header class="modal-header">
-
           <div class="header-title">
             <div class="header-icon">
               <Sparkles :size="18" />
             </div>
 
             <div>
-              <h2 id="create-project-title">
-                Nouveau projet
+              <h2 id="edit-world-title">
+                Modifier le monde
               </h2>
 
               <p>
-                Commencer à construire votre nouvel univers.
+                Modifiez les informations principales de votre univers.
               </p>
             </div>
           </div>
 
-          <button class="close-button" type="button" aria-label="Fermer" @click="closeModal">
+          <button
+            class="close-button"
+            type="button"
+            aria-label="Fermer"
+            @click="closeModal">
             <X :size="18" />
           </button>
         </header>
 
-         <!-- CONTENT -->
         <div class="modal-content">
           <!-- NOM -->
           <div class="form-group">
-            <label for="project-name">
+            <label for="world-name">
               Nom de l'univers
               <span>*</span>
             </label>
 
-            <input id="project-name" v-model="projectName" type="text" maxlength="80" placeholder="Ex. Les Royaumes d'Eldoria" autocomplete="off" />
+            <input
+              id="world-name"
+              v-model="worldName"
+              type="text"
+              maxlength="80"
+              placeholder="Ex. Les Royaumes d'Eldoria"
+              autocomplete="off"
+            />
 
             <div class="input-footer">
-              <small>Donnez un nom à votre univers.</small>
-
-              <small>{{ projectName.length }}/80</small>
+              <small>Le nom de votre univers.</small>
+              <small>{{ worldName.length }}/80</small>
             </div>
           </div>
 
@@ -208,18 +220,30 @@ onBeforeUnmount(() => {
             </label>
 
             <div class="type-grid">
-              <button v-for="type in projectTypes" :key="type.name" class="type-card" :class="{selected: projectType === type.name,}" type="button" @click="selectType(type)">
+              <button
+                v-for="type in projectType"
+                :key="type.name"
+                class="type-card"
+                :class="{ selected: worldType === type.name }"
+                type="button"
+                @click="selectType(type)"
+              >
                 <div class="type-image">
-                  <img :src="type.image" :alt="type.name" />
+                  <img
+                    :src="type.image"
+                    :alt="type.name"
+                  />
 
-                  <div v-if="projectType === type.name" class="selected-icon">
+                  <div
+                    v-if="worldType === type.name"
+                    class="selected-icon"
+                  >
                     <Check :size="14" />
                   </div>
                 </div>
 
                 <div class="type-content">
                   <strong>{{ type.name }}</strong>
-
                   <span>{{ type.description }}</span>
                 </div>
               </button>
@@ -228,7 +252,7 @@ onBeforeUnmount(() => {
 
           <!-- DESCRIPTION -->
           <div class="form-group">
-            <label for="project-description">
+            <label for="world-description">
               Description
 
               <span class="optional">
@@ -236,25 +260,43 @@ onBeforeUnmount(() => {
               </span>
             </label>
 
-            <textarea id="project-description" v-model="projectDescription" maxlength="500" rows="4" placeholder="Décrivez brièvement votre univers..."></textarea>
+            <textarea
+              id="world-description"
+              v-model="worldDescription"
+              maxlength="500"
+              rows="4"
+              placeholder="Décrivez brièvement votre univers..."
+            ></textarea>
 
             <div class="input-footer">
-              <small>Vous pourrez modifier cette description plus tard.</small>
+              <small>
+                Décrivez brièvement votre univers.
+              </small>
 
-              <small>{{ projectDescription.length }}/500</small>
+              <small>
+                {{ worldDescription.length }}/500
+              </small>
             </div>
           </div>
         </div>
 
-        <!-- FOOTER -->
         <footer class="modal-footer">
-          <button class="cancel-button" type="button" @click="closeModal">
+          <button
+            class="cancel-button"
+            type="button"
+            @click="closeModal"
+          >
             Annuler
           </button>
 
-          <button class="create-button" type="button" :disabled="!isValid" @click="createProject">
-            <Plus :size="18" />
-            Créer le projet
+          <button
+            class="save-button"
+            type="button"
+            :disabled="!isValid"
+            @click="updateWorld"
+          >
+            <Save :size="18" />
+            Enregistrer
           </button>
         </footer>
       </section>
@@ -280,7 +322,6 @@ onBeforeUnmount(() => {
   animation: overlay-in 0.2s ease-out;
 }
 
-/* MODAL */
 .modal {
   width: min(720px, 100%);
   max-height: min(850px, calc(100vh - 40px));
@@ -295,12 +336,13 @@ onBeforeUnmount(() => {
 
   background-color: var(--color-surface);
 
-  box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5), 0 0 1px rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 25px 70px rgba(0, 0, 0, 0.5),
+    0 0 1px rgba(255, 255, 255, 0.05);
 
   animation: modal-in 0.2s ease-out;
 }
 
-/* HEADER */
 .modal-header {
   display: flex;
   align-items: center;
@@ -325,7 +367,7 @@ onBeforeUnmount(() => {
 
   width: 35px;
   height: 35px;
-  flex: 0 0 40px;
+  flex: 0 0 35px;
 
   border-radius: var(--radius-sm);
 
@@ -361,23 +403,24 @@ onBeforeUnmount(() => {
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
 
-  background-color: var(--color-text-muted);
+  background-color: transparent;
+  color: var(--color-text);
 
   cursor: pointer;
 
-  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .close-button:hover {
   border-color: var(--color-border);
   background-color: var(--color-surface-light);
-  color: var(--color-text);
 }
 
-/* CONTENT */
 .modal-content {
   overflow-y: auto;
-
   padding: 20px;
 }
 
@@ -406,8 +449,8 @@ onBeforeUnmount(() => {
   font-weight: 400;
 }
 
-/* INPUT */
-input, textarea {
+input,
+textarea {
   width: 100%;
   box-sizing: border-box;
 
@@ -422,7 +465,9 @@ input, textarea {
 
   outline: none;
 
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 input {
@@ -438,19 +483,20 @@ textarea {
   line-height: 1.5;
 }
 
-input::placeholder, textarea::placeholder {
+input::placeholder,
+textarea::placeholder {
   color: var(--color-text-muted);
 }
 
-input:focus, textarea:focus {
+input:focus,
+textarea:focus {
   border-color: var(--color-accent);
-
-  box-shadow: 0 0 0 3px rgba(211, 155, 79, 0.1);
 }
 
 .input-footer {
   display: flex;
   justify-content: space-between;
+
   gap: 10px;
   margin-top: 4px;
 }
@@ -460,7 +506,6 @@ input:focus, textarea:focus {
   font-size: 0.7rem;
 }
 
-/* TYPES */
 .type-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -474,6 +519,7 @@ input:focus, textarea:focus {
   align-items: center;
 
   min-width: 0;
+
   padding: 0;
 
   overflow: hidden;
@@ -488,7 +534,10 @@ input:focus, textarea:focus {
 
   cursor: pointer;
 
-  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .type-card:hover {
@@ -499,7 +548,6 @@ input:focus, textarea:focus {
 
 .type-card.selected {
   border-color: var(--color-accent);
-
   box-shadow: 0 0 0 1px var(--color-accent);
 }
 
@@ -511,18 +559,6 @@ input:focus, textarea:focus {
   flex: 0 0 85px;
 
   overflow: hidden;
-}
-
-.type-image::after {
-  content: '';
-
-  position: absolute;
-  inset: 0;
-
-  background: linear-gradient(
-    90deg,
-    transparent 70%,
-    var(--color-bg) 100%);
 }
 
 .type-image img {
@@ -563,28 +599,29 @@ input:focus, textarea:focus {
 
 .type-content strong {
   font-size: 0.8rem;
-  font-weight: 600;
 }
 
 .type-content span {
   color: var(--color-text-muted);
+
   font-size: 0.7rem;
   line-height: 1.4;
 }
 
-/* FOOTER */
 .modal-footer {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 
   gap: 10px;
+
   padding: 16px 20px;
 
   border-top: 1px solid var(--color-border);
 }
 
-.cancel-button, .create-button {
+.cancel-button,
+.save-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -601,12 +638,15 @@ input:focus, textarea:focus {
 
   cursor: pointer;
 
-  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    opacity 0.2s ease;
 }
 
 .cancel-button {
   border: 2px solid var(--color-border);
-
   background-color: transparent;
   color: var(--color-text);
 }
@@ -617,7 +657,7 @@ input:focus, textarea:focus {
   transform: translateY(-2px);
 }
 
-.create-button {
+.save-button {
   gap: 10px;
 
   background-color: var(--color-accent);
@@ -625,17 +665,17 @@ input:focus, textarea:focus {
   color: black;
 }
 
-.create-button:hover:not(:disabled) {
-  border-color: var(--color-border-hover);
+.save-button:hover:not(:disabled) {
+  border-color: var(--color-accent-hover);
+  background-color: var(--color-accent-hover);
   transform: translateY(-2px);
 }
 
-.create-button:disabled {
+.save-button:disabled {
   cursor: not-allowed;
   opacity: 0.4;
 }
 
-/* ANIMATION */
 @keyframes overlay-in {
   from {
     opacity: 0;
@@ -658,7 +698,6 @@ input:focus, textarea:focus {
   }
 }
 
-/* RESPONSIVE */
 @media (max-width: 600px) {
   .modal-overlay {
     align-items: flex-end;
@@ -668,7 +707,6 @@ input:focus, textarea:focus {
   .modal {
     width: 100%;
     max-height: 92vh;
-
     border-radius: 14px 14px 0 0;
   }
 
@@ -688,18 +726,12 @@ input:focus, textarea:focus {
     grid-template-columns: 1fr;
   }
 
-  .type-image {
-    width: 95px;
-    height: 70px;
-    flex-basis: 95px;
-  }
-
   .modal-footer {
     justify-content: stretch;
   }
 
   .cancel-button,
-  .create-button {
+  .save-button {
     flex: 1;
   }
 }

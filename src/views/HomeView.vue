@@ -20,7 +20,7 @@ import {
   Sparkles
 } from 'lucide-vue-next';
 
-import CreateNewProject from '@/components/projects/CreateNewProject.vue';
+import WorldForm from '@/components/projects/WorldForm.vue'
 
 import mythologiqueImage from '@/assets/images/projects/mythologique.png'
 import lowFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
@@ -540,7 +540,9 @@ onMounted(() => {
     </section>
   </main>
 
-  <CreateNewProject v-if="isCreateProjectModalOpen" @close="closeCreateProjectModal" @create="createProject" />
+  <WorldForm
+  v-if="isCreateProjectModalOpen"
+  @close="closeCreateProjectModal" @create="createProject" />
 </template>
 
 <style scoped>

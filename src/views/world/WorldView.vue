@@ -3,6 +3,8 @@ import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router'
 import { supabase } from '@/lib/supabase';
 
+import WorldForm from '@/components/projects/WorldForm.vue'
+
 import mythologiqueImage from '@/assets/images/projects/mythologique.png'
 import lowFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
 import darkFantasyImage from '@/assets/images/projects/darkFantasy.png'
@@ -30,7 +32,8 @@ import {
   FileText,
   Map,
   Sparkles,
-  UsersRound
+  UsersRound,
+  Plus
 } from 'lucide-vue-next';
 
 const route = useRoute()
@@ -39,6 +42,16 @@ const router = useRouter()
 const world = ref(null)
 const loading = ref(true)
 const error = ref(null)
+
+const isEditWorlModaldOpen = ref(false)
+
+function openEditWorldModal() {
+  isEditWorldOpen.value = true
+}
+
+function closeEditWorldModal() {
+  isEditWorldOpen.value = false
+}
 
 const stats = ref({
   characters: 0,
@@ -215,6 +228,38 @@ function goBackProjects() {
   })
 }
 
+async function updateWorld(updateWorld) {
+  if (!world.value) {
+    return
+  }
+
+  const { data, error:supabaseError } = await supabase
+    .from('worlds')
+    .update({
+      name: updateWorld.name,
+      description: updateWorld.description || null,
+      type: updateWorld.type,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', world.value.id)
+    .select()
+    .single()
+
+  if (supabaseError) {
+    console.error('Erreur lors de la modification du monde :', supabaseError)
+
+    window.alert('Impossible de modifier le monde.')
+    return
+  }
+
+  world.value = {
+    ...data,
+    image: data.cover_url || getProjectImage(data.type)
+  }
+
+  isEditWorldOpen.value = false
+}
+
 onMounted(() => {
   loadWorld()
 })
@@ -277,7 +322,7 @@ onMounted(() => {
               <h1>{{ world.name }}</h1>
             </div>
 
-            <button class="world-edit-button" type="button">
+            <button class="world-edit-button" type="button" @click="openEditWorldModal">
               <Edit3 :size="18" />
               Modifier
             </button>
@@ -441,6 +486,12 @@ onMounted(() => {
       </section>
     </template>
   </main>
+
+  <WorldForm
+    v-if="isEditWorldModalOpen && world"
+    :world="world"
+    @close="closeEditWorldModal"
+    @update="updateWorld" />
 </template>
 
 <style scoped>
