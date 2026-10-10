@@ -1,23 +1,8 @@
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { X, Check, Save, Plus, Sparkles } from 'lucide-vue-next'
 
-import mythologiqueImage from '@/assets/images/projects/mythologique.png'
-import lowFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
-import darkFantasyImage from '@/assets/images/projects/darkFantasy.png'
-import highFantasyImage from '@/assets/images/projects/highFantasy.png'
-import murimImage from '@/assets/images/projects/murim.png'
-import historiqueImage from '@/assets/images/projects/historique.png'
-import steampunkImage from '@/assets/images/projects/steampunk.png'
-import horreurImage from '@/assets/images/projects/horreur.png'
-import urbanFantasyImage from '@/assets/images/projects/urbanFantasy.png'
-import pirateImage from '@/assets/images/projects/pirate.png'
-import postApoImage from '@/assets/images/projects/postApo.png'
-import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png'
-import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
-import biopunkImage from '@/assets/images/projects/biopunk.png'
-import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
-import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
+import { worldTypes } from '@/data/worldType'
 
 const props = defineProps({
   world: {
@@ -32,90 +17,9 @@ const isEditMode = computed(() => props.world !== null)
 
 const worldName = ref('')
 const worldDescription = ref('')
-const worldType = ref('Low fantasy')
+const selectedWorldType = ref('Low fantasy')
 
-const projectTypes = [
-  {
-    name: 'Low fantasy',
-    description: 'Monde réel, magie peu présente, créatures...',
-    image: lowFantasyImage,
-  },
-  {
-    name: 'High fantasy',
-    description: 'Monde fictif, magie omniprésente, monstres...',
-    image: highFantasyImage,
-  },
-  {
-    name: 'Dark fantasy',
-    description: 'Cultes, malédictions, corruption, désespoir...',
-    image: darkFantasyImage,
-  },
-  {
-    name: 'Horreur',
-    description: 'Surnaturel, monstres, occultisme...',
-    image: horreurImage,
-  },
-  {
-    name: 'Urban fantasy',
-    description: 'Surnaturel, urbain contemporain...',
-    image: urbanFantasyImage,
-  },
-  {
-    name: 'Mythologique',
-    description: 'Dieux, mythes, légendes, héros...',
-    image: mythologiqueImage,
-  },
-  {
-    name: 'Murim',
-    description: 'Arts martiaux, clans, sectes...',
-    image: murimImage,
-  },
-  {
-    name: 'Pirate',
-    description: 'Pirates, trésors, bateaux...',
-    image: pirateImage,
-  },
-  {
-    name: 'Historique',
-    description: 'Inspiré d’une période historique...',
-    image: historiqueImage,
-  },
-  {
-    name: 'Post-apocalypse',
-    description: 'Ruines, survie, reconstruction...',
-    image: postApoImage,
-  },
-  {
-    name: 'Steampunk',
-    description: 'Vapeur, machines, artefacts, révolution industrielle...',
-    image: steampunkImage,
-  },
-  {
-    name: 'Gaslamp',
-    description: '20e siècle, horreur gothique, historique...',
-    image: gaslampFantasyImage,
-  },
-  {
-    name: 'Cyberpunk',
-    description: 'Mégapoles, corporations, implants, inégalités sociales...',
-    image: cyberpunkImage,
-  },
-  {
-    name: 'Biopunk',
-    description: 'Modification génétique, biohacking, clonage...',
-    image: biopunkImage,
-  },
-  {
-    name: 'Science-fantasy',
-    description: 'Science, magie, espace, civilisations galactiques...',
-    image: scienceFantasyImage,
-  },
-  {
-    name: 'Science-fiction',
-    description: 'Espace, technologie, civilisations galactiques...',
-    image: scienceFictionImage,
-  },
-]
+const projectTypes = worldTypes
 
 const isValid = computed(() => {
   return worldName.value.trim().length > 0
@@ -125,16 +29,16 @@ function initializeForm() {
   if (props.world) {
     worldName.value = props.world.name || ''
     worldDescription.value = props.world.description || ''
-    worldType.value = props.world.type || 'Low fantasy'
+    selectedWorldType.value = props.world.type || 'Low fantasy'
   } else {
     worldName.value = ''
     worldDescription.value = ''
-    worldType.value = 'Low fantasy'
+    selectedWorldType.value = 'Low fantasy'
   }
 }
 
 function selectType(type) {
-  worldType.value = type.name
+  selectedWorldType.value = type.name
 }
 
 function closeModal() {
@@ -156,20 +60,29 @@ function submitForm() {
     ...(props.world?.id ? { id: props.world.id } : {}),
     name: worldName.value.trim(),
     description: worldDescription.value.trim(),
-    type: worldType.value,
+    type: selectedWorldType.value,
   })
 }
 
-initializeForm()
+watch(
+  () => props.world,
+  () => {
+    initializeForm()
+  },
+  { immediate: true }
+)
+
+let previousBodyOverflow = ''
 
 onMounted(() => {
+  previousBodyOverflow = document.body.style.overflow
   document.addEventListener('keydown', handleEscape)
   document.body.style.overflow = 'hidden'
 })
 
 onBeforeUnmount(() => {
   document.removeEventListener('keydown', handleEscape)
-  document.body.style.overflow = ''
+  document.body.style.overflow = previousBodyOverflow
 })
 </script>
 
@@ -181,7 +94,8 @@ onBeforeUnmount(() => {
       <section
         class="modal"
         role="dialog"
-        aria-modal="true">
+        aria-modal="true"
+        aria-labelledby="world-form-title">
         <!-- HEADER -->
         <header class="modal-header">
           <div class="header-title">
@@ -253,7 +167,7 @@ onBeforeUnmount(() => {
                 v-for="type in projectTypes"
                 :key="type.name"
                 class="type-card"
-                :class="{ selected: worldType === type.name }"
+                :class="{ selected: selectedWorldType === type.name }"
                 type="button"
                 @click="selectType(type)"
               >
@@ -264,7 +178,7 @@ onBeforeUnmount(() => {
                   />
 
                   <div
-                    v-if="worldType === type.name"
+                    v-if="selectedWorldType === type.name"
                     class="selected-icon"
                   >
                     <Check :size="14" />
@@ -410,7 +324,7 @@ onBeforeUnmount(() => {
 
   width: 35px;
   height: 35px;
-  flex: 0 0 40px;
+  flex: 0 0 35px;
 
   border-radius: var(--radius-sm);
 
@@ -446,7 +360,8 @@ onBeforeUnmount(() => {
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
 
-  background-color: var(--color-text-muted);
+  background-color: transparent;
+  color: var(--color-text-muted);
 
   cursor: pointer;
 
@@ -782,7 +697,7 @@ input:focus, textarea:focus {
   }
 
   .cancel-button,
-  .create-button {
+  .save-button {
     flex: 1;
   }
 }

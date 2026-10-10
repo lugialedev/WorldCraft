@@ -5,22 +5,7 @@ import { supabase } from '@/lib/supabase';
 
 import WorldForm from '@/components/projects/WorldForm.vue'
 
-import mythologiqueImage from '@/assets/images/projects/mythologique.png'
-import lowFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
-import darkFantasyImage from '@/assets/images/projects/darkFantasy.png'
-import highFantasyImage from '@/assets/images/projects/highFantasy.png'
-import murimImage from '@/assets/images/projects/murim.png'
-import historiqueImage from '@/assets/images/projects/historique.png'
-import steampunkImage from '@/assets/images/projects/steampunk.png'
-import horreurImage from '@/assets/images/projects/horreur.png'
-import urbanFantasyImage from '@/assets/images/projects/urbanFantasy.png'
-import postApoImage from '@/assets/images/projects/postApo.png'
-import pirateImage from '@/assets/images/projects/pirate.png'
-import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
-import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
-import biopunkImage from '@/assets/images/projects/biopunk.png'
-import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png'
-import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
+import { worldTypes } from '@/data/worldType';
 
 import {
   ArrowLeft,
@@ -43,7 +28,7 @@ const world = ref(null)
 const loading = ref(true)
 const error = ref(null)
 
-const isEditWorlModaldOpen = ref(false)
+const isEditWorldOpen = ref(false)
 
 function openEditWorldModal() {
   isEditWorldOpen.value = true
@@ -87,42 +72,7 @@ const quickActions = [
 ]
 
 function getProjectImage(type) {
-  switch (type) {
-    case 'Low fantasy':
-      return lowFantasyImage
-    case 'Murim':
-      return murimImage
-    case 'Steampunk':
-      return steampunkImage
-    case 'Mythologique':
-      return mythologiqueImage
-    case 'Dark fantasy':
-      return darkFantasyImage
-    case 'High fantasy':
-      return highFantasyImage
-    case 'Historique':
-      return historiqueImage
-    case 'Horreur':
-      return horreurImage
-    case 'Urban fantasy':
-      return urbanFantasyImage
-    case 'Pirate':
-      return pirateImage
-    case 'Post-apocalypse':
-      return postApoImage
-    case 'Gaslamp':
-      return gaslampFantasyImage
-    case 'Cyberpunk':
-      return cyberpunkImage
-    case 'Biopunk':
-      return biopunkImage
-    case 'Science-fantasy':
-      return scienceFantasyImage
-    case 'ScienceFiction':
-      return scienceFictionImage
-    default:
-      return lowFantasyImage
-  }
+  return worldTypes.find(world => world.name === type)?.image || null
 }
 
 function formatDate(dateString) {
@@ -228,7 +178,7 @@ function goBackProjects() {
   })
 }
 
-async function updateWorld(updateWorld) {
+async function updateWorld(worldData) {
   if (!world.value) {
     return
   }
@@ -236,9 +186,9 @@ async function updateWorld(updateWorld) {
   const { data, error:supabaseError } = await supabase
     .from('worlds')
     .update({
-      name: updateWorld.name,
-      description: updateWorld.description || null,
-      type: updateWorld.type,
+      name: worldData.name,
+      description: worldData.description || null,
+      type: worldData.type,
       updated_at: new Date().toISOString(),
     })
     .eq('id', world.value.id)
@@ -488,10 +438,10 @@ onMounted(() => {
   </main>
 
   <WorldForm
-    v-if="isEditWorldModalOpen && world"
+    v-if="isEditWorldOpen && world"
     :world="world"
     @close="closeEditWorldModal"
-    @update="updateWorld" />
+    @submit="updateWorld" />
 </template>
 
 <style scoped>
@@ -1098,17 +1048,17 @@ onMounted(() => {
     min-width: 33%;
   }
 
-  .world-header-content {
+  .header-content {
     padding: 30px;
   }
 }
 
 @media (max-width: 700px) {
-  .world-header {
+  .header {
     min-height: 390px;
   }
 
-  .world-header-content {
+  .header-content {
     min-height: 390px;
 
     padding: 24px;
@@ -1142,11 +1092,11 @@ onMounted(() => {
     grid-template-columns: 1fr;
   }
 
-  .world-header {
+  .header {
     min-height: 430px;
   }
 
-  .world-header-content {
+  .header-content {
     min-height: 430px;
 
     padding: 20px;

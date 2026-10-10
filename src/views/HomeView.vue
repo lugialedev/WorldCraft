@@ -21,23 +21,7 @@ import {
 } from 'lucide-vue-next';
 
 import WorldForm from '@/components/projects/WorldForm.vue'
-
-import mythologiqueImage from '@/assets/images/projects/mythologique.png'
-import lowFantasyImage from '@/assets/images/projects/médiévalFantasy.png'
-import darkFantasyImage from '@/assets/images/projects/darkFantasy.png'
-import highFantasyImage from '@/assets/images/projects/highFantasy.png'
-import murimImage from '@/assets/images/projects/murim.png'
-import historiqueImage from '@/assets/images/projects/historique.png'
-import steampunkImage from '@/assets/images/projects/steampunk.png'
-import horreurImage from '@/assets/images/projects/horreur.png'
-import urbanFantasyImage from '@/assets/images/projects/urbanFantasy.png'
-import postApoImage from '@/assets/images/projects/postApo.png'
-import pirateImage from '@/assets/images/projects/pirate.png'
-import scienceFantasyImage from '@/assets/images/projects/scienceFantasy.png'
-import gaslampFantasyImage from '@/assets/images/projects/gaslampFantasy.png'
-import cyberpunkImage from '@/assets/images/projects/cyberpunk.png'
-import biopunkImage from '@/assets/images/projects/biopunk.png'
-import scienceFictionImage from '@/assets/images/projects/scienceFiction.png'
+import { worldTypes } from '@/data/worldType';
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -91,7 +75,7 @@ async function createProject(project) {
     return
   }
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from('worlds')
     .insert({
       user_id: authStore.user.id,
@@ -112,25 +96,9 @@ async function createProject(project) {
     return
   }
 
-  const newProject = {
-    id: data.id,
-    name: data.name,
-    type: data.type,
-    updated: 'à l’instant',
-    image: project.image,
-    description: data.description,
-    stats: {
-      character: 0,
-      locations: 0,
-      notes: 0,
-    },
-  }
-
-  projects.value.unshift(newProject)
-
   isCreateProjectModalOpen.value = false
 
-  loadProjects()
+  await loadProjects()
 }
 
 function openProject(project) {
@@ -150,7 +118,7 @@ async function loadProjects() {
 
   const { data, error } = await supabase
     .from('worlds')
-    .select('*')
+    .select('id, name, description, type, cover_url, updated_at')
     .order('updated_at', { ascending: false })
     .limit(4)
 
@@ -178,46 +146,20 @@ async function loadProjects() {
 }
 
 function getProjectImage(type) {
-  switch (type) {
-    case 'Low fantasy':
-      return lowFantasyImage
-    case 'Murim':
-      return murimImage
-    case 'Steampunk':
-      return steampunkImage
-    case 'Mythologique':
-      return mythologiqueImage
-    case 'Dark fantasy':
-      return darkFantasyImage
-    case 'High fantasy':
-      return highFantasyImage
-    case 'Historique':
-      return historiqueImage
-    case 'Horreur':
-      return horreurImage
-    case 'Urban fantasy':
-      return urbanFantasyImage
-    case 'Pirate':
-      return pirateImage
-    case 'Post-apocalypse':
-      return postApoImage
-    case 'Gaslamp':
-      return gaslampFantasyImage
-    case 'Cyberpunk':
-      return cyberpunkImage
-    case 'Biopunk':
-      return biopunkImage
-    case 'Science-fantasy':
-      return scienceFantasyImage
-    case 'ScienceFiction':
-      return scienceFictionImage
-    default:
-      return lowFantasyImage
-  }
+  return worldTypes.find(world => world.name === type)?.image || null
 }
 
 function formatUpdatedDate(dateString) {
+  if (!dateString) {
+    return ''
+  }
+
   const date = new Date(dateString)
+
+  if (Number.isNaN(date.getTime())) {
+    return ''
+  }
+
   const now = new Date()
 
   const diff = now.getTime() - date.getTime()
@@ -225,6 +167,9 @@ function formatUpdatedDate(dateString) {
   const minutes = Math.floor(diff / 1000 / 60)
   const hours = Math.floor(minutes / 60)
   const days = Math.floor(hours / 24)
+  const week = Math.floor(days / 7)
+  const month = Math.floor(days / 30)
+  const year = Math.floor(days / 365)
 
   if (minutes<1) {
     return "à l'instant"
@@ -237,6 +182,15 @@ function formatUpdatedDate(dateString) {
   }
   if (days < 7) {
     return `il y a ${days} jours`
+  }
+  if (days < 30) {
+    return `il y a ${week} semaine`
+  }
+  if (month < 12) {
+    return `il y a ${month} mois`
+  }
+  if (month >= 12) {
+    return `il y a ${year} ans`
   }
 
   return date.toLocaleDateString('fr-FR')
@@ -290,7 +244,7 @@ async function renameProject(project) {
 
   openedProjectMenu.value = null
 
-  loadProjects()
+  await loadProjects()
 }
 
 async function deleteProject(project) {
@@ -316,7 +270,7 @@ async function deleteProject(project) {
 
   openedProjectMenu.value = null
 
-  loadProjects()
+  await loadProjects()
 }
 
 function toggleProjectMenu(projectId) {
@@ -389,7 +343,7 @@ onMounted(() => {
 
         <div>
           <strong>+300k</strong><br />
-          <span> d'utilisateur</span>
+          <span> d'utilisateurs</span>
         </div>
       </div>
 
@@ -411,7 +365,7 @@ onMounted(() => {
 
         <div>
           <strong>+30k</strong><br />
-          <span> assets gratuit</span>
+          <span> assets gratuits</span>
         </div>
       </div>
 
@@ -455,7 +409,7 @@ onMounted(() => {
           @click="openProject(project)"
         >
           <div class="project-image">
-            <img :src="project.image" :alt="project.type" @error="$event.target.style.display = 'none'" />
+            <img :src="project.image" :alt="project.type" />
 
             <div class="project-overlay"></div>
 
@@ -542,7 +496,8 @@ onMounted(() => {
 
   <WorldForm
   v-if="isCreateProjectModalOpen"
-  @close="closeCreateProjectModal" @create="createProject" />
+  @close="closeCreateProjectModal"
+  @submit="createProject" />
 </template>
 
 <style scoped>
@@ -893,7 +848,7 @@ onMounted(() => {
   color: var(--color-text-muted);
   font-size: 0.78rem;
 }
-.stat-icon
+
 .project-stats {
   display: flex;
   align-items: center;
